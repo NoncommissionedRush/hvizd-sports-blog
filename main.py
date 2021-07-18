@@ -1,4 +1,5 @@
 ***REMOVED***
+import datetime
 ***REMOVED***
 from flask import Flask, request, flash, url_for, abort
 from flask.templating ***REMOVED***nder_template
@@ -54,6 +55,7 @@ class Post(db.Model):
     title = db.Column(db.String(250), nullable=False)
     title_img = db.Column(db.String(250), default=DEFAULT_POST_IMG)
     body = db.Column(db.Text())
+    created_date = db.Column(db.DateTime, default=datetime.datetime.now)
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     author = db.relationship("User", back_populates="posts")
     views = db.Column(db.Integer, default=0)
@@ -64,6 +66,7 @@ class Comment(db.Model):
     __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text())
+    created_date = db.Column(db.DateTime, default=datetime.datetime.now)
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     author = db.relationship("User")
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
@@ -125,6 +128,51 @@ def load_user(user_id):
 ***REMOVED***
 
 
+# ------------------------------------ PRETTY DATE -------------------------------------------
+
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+***REMOVED***
+    
+***REMOVED***
+
+***REMOVED***
+***REMOVED***
+
+***REMOVED***
+***REMOVED***
+
+***REMOVED***
+***REMOVED***
+***REMOVED*** "just now"
+***REMOVED***
+***REMOVED*** str(second_diff) + " seconds ago"
+***REMOVED***
+***REMOVED*** "a minute ago"
+***REMOVED***
+***REMOVED*** str(second_diff // 60) + " minutes ago"
+***REMOVED***
+***REMOVED*** "an hour ago"
+***REMOVED***
+            print(f"second_diff {second_diff}")
+***REMOVED*** str(second_diff // 3600) + " hours ago"
+***REMOVED***
+        return "Yesterday"
+***REMOVED***
+        return str(day_diff) + " days ago"
+***REMOVED***
+        return str(day_diff / 7) + " weeks ago"
+***REMOVED***
+        return str(day_diff / 30) + " months ago"
+    return str(day_diff / 365) + " years ago"
+
+***REMOVED***
+***REMOVED***
 # ------------------------------------ ROUTES -------------------------------------------
 
 

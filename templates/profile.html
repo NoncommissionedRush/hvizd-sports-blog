@@ -55,7 +55,7 @@
               <small
                 ><i class="fas fa-user"></i>
                 <a href="profile.html">{{post.author.name}}</a>
-                <i class="far fa-clock"></i> 2 hours ago</small
+                <i class="far fa-clock"></i> {{pretty_date(post.created_date)}}</small
               >
               <h2>
                 <a href="{{url_for('post', post_id=post.id)}}">{{post.title}}</a>
@@ -80,7 +80,7 @@
               <h2>
                 <a href="url_for('post', post_id=post.id)">{{post.title}}</a>
               </h2>
-              <small><i class="far fa-clock"></i> 2 hours ago</small>
+              <small><i class="far fa-clock"></i> {{pretty_date(post.created_date)}}</small>
             </div>
           </div>
           {% endfor %}
