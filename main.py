@@ -1,19 +1,30 @@
 ***REMOVED***
+***REMOVED***
 from flask import Flask, request, flash, url_for, abort
 from flask.templating ***REMOVED***nder_template
 from flask_login.utils import login_required, login_user, current_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.utils ***REMOVED***direct
+from werkzeug.utils ***REMOVED***direct, secure_filename
 from flask_login import LoginManager, UserMixin
 from flask_ckeditor import CKEditor
 
 
 # ------------------------------- Set up app and db -----------------------------------
+UPLOAD_FOLDER = './static/img'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "Js4kpytaKqIXow"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog-test.db"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
 ckeditor = CKEditor(app)
+
+
+# ---------------------------------- upload file ---------------------------------------
+***REMOVED***
+***REMOVED***
 
 
 # ---------------------------- Set up database tables ----------------------------------
@@ -22,6 +33,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(250), unique=True, nullable=False)
+    profile_img = db.Column(db.String(250), default="default-profile-img.jpeg")
     password = db.Column(db.String(250), nullable=False)
     fav_team = db.Column(db.String(250))
     hometown = db.Column(db.String(250))
@@ -39,7 +51,7 @@ class Post(db.Model):
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(250), nullable=False)
-    title_img = db.Column(db.String(250))
+    title_img = db.Column(db.String(250), default="../static/img/default-post-img.jpg")
     body = db.Column(db.Text())
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     author = db.relationship("User", back_populates="posts")
@@ -93,6 +105,17 @@ def load_user(user_id):
 ***REMOVED***
 ***REMOVED***
 
+***REMOVED***
+***REMOVED***
+
+
+***REMOVED***
+
+***REMOVED***
+
+***REMOVED***
+        setattr(post_to_update, attr, value)
+    
 ***REMOVED***
 ***REMOVED***
 
@@ -201,10 +224,21 @@ def edit_profile(user_id):
         facebook = request.form["facebook"]
         twitter = request.form["twitter"]
         instagram = request.form["instagram"]
+        file = request.files['file']
+        profile_img = current_user.profile_img
+
+    ***REMOVED***
+    ***REMOVED***
+    ***REMOVED***
+    ***REMOVED***
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(new_filename)))
+            profile_img = new_filename
+        
 
         update_user(
             user_id,
             name=name,
+            profile_img=profile_img,
             fav_team=fav_team,
             hometown=hometown,
             about=about,
@@ -236,7 +270,7 @@ def post(post_id):
 def create_post():
     if request.method == "POST":
         post_title = request.form["post-title"]
-        title_img = request.form["title-img"]
+        title_img = request.form["title-img"] if request.form["title-img"] else None
         post_body = request.form.get("ckeditor")
 
         new_post = Post(
