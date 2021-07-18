@@ -1,0 +1,73 @@
+// profile page
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.profile-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+
+  @include set-background($primary_color);
+
+  .social-icons a {
+    color: #fff;
+    margin: 0 0.3rem;
+
+    &:hover {
+      color: lighten($secondary_color, 10%);
+    }
+  }
+}
+
+.line {
+  height: 1px;
+  background: #ccc;
+  margin: 1.5rem 0;
+}
+
+.post {
+  grid-row-end: span 2;
+  overflow: hidden;
+}
+
+.stats {
+  display: flex;
+  justify-content: stretch;
+  margin-top: 1rem;
+
+  * {
+    display: inline-block;
+  }
+
+  .likes {
+    .fas {
+      margin: 0;
+    }
+
+    p {
+      margin: 0 0.3rem;
+    }
+
+    margin-right: 2rem;
+
+    .fa-arrow-circle-up:hover {
+      color: $success_color;
+    }
+
+    .fa-arrow-circle-down:hover {
+      color: $danger_color;
+    }
+  }
+}
+
+.comments {
+  a:hover {
+    color: $dark_color;
+    border-bottom: 2px solid;
+  }
+}

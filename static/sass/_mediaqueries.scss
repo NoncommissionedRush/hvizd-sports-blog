@@ -1,0 +1,153 @@
+@media (max-width: 1200px) {
+  .container-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .post {
+    display: flex;
+
+    &-details {
+      justify-content: flex-start;
+      max-width: 600px;
+      * {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  .side-post {
+    display: flex;
+
+    h2 {
+      margin: 1rem 0;
+    }
+
+    &-thumb {
+      max-height: 100px;
+
+      img {
+        width: 160px;
+        max-height: 100px;
+      }
+    }
+
+    &-details {
+      justify-content: flex-start;
+
+      small {
+        color: $dark_color;
+      }
+    }
+  }
+
+  .author-info {
+    display: flex;
+    .small {
+      flex-shrink: 0;
+      margin: 1rem 1rem 0 0;
+      height: 200px;
+    }
+
+    p {
+      margin: auto 0;
+      width: 75%;
+    }
+  }
+
+  .one {
+    background: red;
+    width: 180px;
+    height: 200px;
+  }
+
+  .two {
+    background: blue;
+    width: 50%;
+    height: 200px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .post {
+    display: flex;
+
+    &-details {
+      display: flex;
+      max-width: 420px;
+
+      * {
+        margin-bottom: 0.6rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  .post {
+    display: flex;
+    flex-direction: column;
+
+    &-thumb {
+      max-height: 350px;
+      img {
+        max-width: 100%;
+        max-height: 350px;
+      }
+    }
+
+    &-details {
+      max-width: 100%;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .profiles {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+  }
+
+  .profile {
+    .small {
+      width: 130px;
+    }
+  }
+
+  .profile-top {
+    .medium {
+      width: 180px;
+    }
+  }
+
+  h1 {
+    line-height: 1.1;
+  }
+
+  .author-info {
+    flex-direction: column;
+    .small {
+      margin: 0 auto;
+      margin-top: 1rem;
+    }
+
+    p {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .post {
+    &-thumb {
+      max-height: 220px;
+      img {
+        max-width: 100%;
+        max-height: 220px;
+      }
+    }
+
+    &-details {
+      max-width: 100%;
+    }
+  }
+}

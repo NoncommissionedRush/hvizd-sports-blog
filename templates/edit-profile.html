@@ -1,0 +1,52 @@
+{% include "header.html" %}
+    <div class="container">
+      <a class="btn btn-light my-1" href="{{url_for('profile', user_id=current_user.id)}}">Späť</a>
+      <h2><i class="fas fa-user"></i> Edit Profile</h2>
+      <form class="form" action="{{url_for('edit_profile', user_id=current_user.id)}}" method="POST">
+
+        <div class="my-1">
+          <label for="name">Your Name</label>
+          <input type="text" name='name' value="{{current_user.name}}" onClick="this.select();">
+        </div>
+        
+        <label for="profile-img">Profile Image</label>
+        <input type="file" id="myFile" name="profile-img">
+
+        <div class="my-1">
+          <label for="fav-team">Favorite Team</label>
+          <input type="text" name="fav-team" value="{{current_user.fav_team if current_user.fav_team}}" onClick="this.select();"/>
+        </div>
+        
+        <div class="my-1">
+          <label for="hometown">Hometown</label>
+          <input type="text" name="hometown" value="{{current_user.hometown if current_user.hometown}}" onClick="this.select();">
+        </div>
+        
+        <div class="my-1">
+          <label for="about">About You</label>
+          <textarea type="text" name="about" rows=5>{{current_user.about if current_user.about}}</textarea>
+        </div>
+        
+        <div class="input-container my-1">
+          <label for="facebook">Facebook</label>
+          <span>www.facebook.com/</span>
+          <input class="input-facebook" type="text" name="facebook" value="{{current_user.facebook if current_user.facebook}}" onClick="this.select();">
+        </div>
+        
+        <div class="input-container my-1">
+          <label for="twitter">Twitter</label>
+          <span>www.twitter.com/</span>
+          <input class="input-twitter" type="text" name="twitter" value="{{current_user.twitter if current_user.twitter}}" onClick="this.select();">
+        </div>
+        
+        <div class="input-container my-1">
+          <label for="instagram">Instagram</label>
+          <span>www.instagram.com/</span>
+          <input class="input-instagram" type="text" name="instagram" value="{{current_user.instagram if current_user.instagram}}" onClick="this.select();">
+        </div>
+
+        <button class="btn btn-primary btn-lg" type="submit" onClick="this.select();">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

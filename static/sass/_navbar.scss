@@ -1,0 +1,61 @@
+// navbar
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid $primary_color;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  background-image: url("https://www.transparenttextures.com/patterns/black-orchid.png");
+}
+
+#logo {
+  color: #fff;
+  img {
+    position: absolute;
+    top: 0;
+    left: 30px;
+    max-height: 55px;
+    width: auto;
+  }
+}
+
+.nav {
+  display: flex;
+
+  a {
+    padding: 0.5rem;
+    margin: 0 0.25 rem;
+    color: #fff;
+  }
+
+  a:hover {
+    cursor: pointer;
+    color: $secondary_color;
+  }
+}
+
+// landing
+.landing {
+  width: 100vw;
+  height: 100%;
+  background-image: url("../../../img/nfl-landing.jpg");
+  background-color: rgba(0, 0, 0, 0.6);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-blend-mode: overlay;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  h2 {
+    font-family: "freshmannormal";
+    margin-bottom: 1rem;
+  }
+}

@@ -1,0 +1,109 @@
+{% include "header.html" %}
+
+    <div class="container">
+      <h1 class="text-xl text-primary my-1">
+        {{post.title}}
+      </h1>
+      {% if current_user.is_authenticated and current_user.id == post.author.id%}
+      <div class="my-1">
+        <a class="btn btn-small btn-white" href="{{url_for('edit_post', post_id=post.id)}}">Edit</a>
+        <a class="btn btn-small btn-delete" href="{{url_for('delete_post', post_id=post.id)}}">Delete</a>
+      </div>
+      {% endif %}
+      <small
+        ><i class="fas fa-user"></i>
+        <a href="{{url_for('profile', user_id=post.author.id)}}">{{post.author.name}}</a>
+        <i class="far fa-clock"></i> 2 hours ago</small
+      >
+
+      <div class="container-grid">
+        <div class="post-body">
+          <img
+            class="title-img my-1"
+            src="{{post.title_img}}"
+            alt="post-image"
+          />
+
+          {{post.body | safe}}
+          <h2>Comments</h2>
+          {% if current_user.is_authenticated %}
+          <form class="form my-1" action="{{url_for('add_comment', post_id=post.id)}}" method="POST">
+            <textarea name="comment" placeholder="Add comment" rows="5"></textarea>
+
+            <button class="btn btn-success btn-md" type="submit">
+              Add comment
+            </button>
+          </form>
+          {% else %}
+          <hr />
+          {% endif %}
+          <div class="comment-thread">
+            {% for comment in post.comments %}
+            <div class="comment">
+
+              <div class="comment-heading">
+                <div class="comment-info">
+                  <a class="comment-author" href="profile.html"
+                    >{{comment.author.name}}</a
+                  >
+                  <p>2 hours ago</p>
+                </div>
+              </div>
+              <div class="comment-body">
+                <p>
+                  {{comment.body}}
+                </p>
+                <div class="my-1">
+                  {% if current_user.is_authenticated %}
+                  <a href="#" class="btn btn-small btn-white">Flag</a>
+                  {% endif %}
+                  {% if current_user.id == comment.author.id %}
+                  <a href="{{url_for('delete_comment', comment_id=comment.id)}}" class="btn btn-small btn-delete">Delete</a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="side-container">
+          <h2>{{post.author.name}}</h2>
+          <hr />
+          <div class="author-info">
+            <div class="small">
+              <a href="{{url_for('profile', user_id=post.author.id)}}">
+                <div class="profile-img img-round highlightable">
+                  <img
+                    src="../static/img/profile-pic.jpg"
+                    alt="profilepicture"
+                  />
+                </div>
+              </a>
+            </div>
+            <p class="text-bold text-grey my-1">
+              {{post.author.about}}
+            </p>
+          </div>
+          <div class="sticky">
+            <h2>Popular Articles</h2>
+            <hr />
+            {% for post in top_posts %}
+            <div class="side-post my-1">
+              <a href="{{url_for('post', post_id=post.id)}}" class="side-post-thumb highlightable"
+                ><img src="{{post.title_img}}" alt="img"
+              /></a>
+              <div class="side-post-details">
+                <h2>
+                  <a href="{{url_for('post', post_id=post.id)}}">{{post.title}}</a>
+                </h2>
+                <small><i class="far fa-clock"></i> 2 hours ago</small>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
