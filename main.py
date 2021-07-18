@@ -12,6 +12,7 @@ from flask_ckeditor import CKEditor
 # ------------------------------- Set up app and db -----------------------------------
 UPLOAD_FOLDER = './static/img'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+DEFAULT_POST_IMG = "../static/img/default-post-img.jpg"
 
 
 app = Flask(__name__)
@@ -51,7 +52,7 @@ class Post(db.Model):
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(250), nullable=False)
-    title_img = db.Column(db.String(250), default="../static/img/default-post-img.jpg")
+    title_img = db.Column(db.String(250), default=DEFAULT_POST_IMG)
     body = db.Column(db.Text())
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     author = db.relationship("User", back_populates="posts")
@@ -270,7 +271,7 @@ def post(post_id):
 def create_post():
     if request.method == "POST":
         post_title = request.form["post-title"]
-        title_img = request.form["title-img"] if request.form["title-img"] else None
+        title_img = request.form["title-img"] if request.form['title-img'] else None
         post_body = request.form.get("ckeditor")
 
         new_post = Post(
@@ -293,12 +294,13 @@ def edit_post(post_id):
         new_body = request.form.get("ckeditor")
 
         post_to_edit.title = new_title
-        post_to_edit.title_img = new_title_img
+        if new_title_img:
+            post_to_edit.title_img = new_title_img
         post_to_edit.body = new_body
         db.session.add(post_to_edit)
     ***REMOVED***
         return redirect(url_for("post", post_id=post_to_edit.id))
-    return render_template("create-post.html", is_edit=True, post_to_edit=post_to_edit)
+    return render_template("create-post.html", is_edit=True, post_to_edit=post_to_edit, default_post_img=DEFAULT_POST_IMG)
 
 
 @app.route("/delete-post/<int:post_id>")
