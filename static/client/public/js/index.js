@@ -89,3 +89,15 @@ if (btnDeleteProfile){
     });
 }
 
+btnDeleteComment = document.querySelector("#btn-delete-comment")
+if (btnDeleteComment){
+    btnDeleteComment.addEventListener("click", (e) => {
+      e.preventDefault();
+      Confirm.open({
+        message: "Are you sure you want to delete the comment?",
+        onYes: () => {
+          window.location.href = e.target.href;
+        },
+      });
+    });
+}
