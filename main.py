@@ -5,6 +5,7 @@ from flask import Flask, request, flash, url_for, abort
 from flask.templating ***REMOVED***nder_template
 from flask_login.utils import login_required, login_user, current_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils ***REMOVED***direct, secure_filename
 from flask_login import LoginManager, UserMixin
 from flask_ckeditor import CKEditor
@@ -197,7 +198,7 @@ def login():
 
     ***REMOVED***
 
-        if bool(existing_user) and existing_user.password == password:
+        if bool(existing_user) and check_password_hash(existing_user.password, password):
             login_user(existing_user)
 ***REMOVED*** redirect(url_for("home"))
     ***REMOVED***
@@ -214,6 +215,9 @@ def register():
         name = request.form["name"]
         email = request.form["email"]
         password = request.form["password"]
+        hash_string = generate_password_hash(
+            password, method="pbkdf2:sha256", salt_length=8
+    ***REMOVED***
         confirm_password = request.form["confirm-password"]
 
 ***REMOVED***
@@ -225,7 +229,7 @@ def register():
             flash(str(error))
 ***REMOVED*** redirect(url_for("register"))
     ***REMOVED***
-            new_user = User(name=name, email=email, password=password)
+            new_user = User(name=name, email=email, password=hash_string)
             db.session.add(new_user)
         ***REMOVED***
             login_user(new_user)
@@ -302,6 +306,15 @@ def edit_profile(user_id):
         return render_template("edit-profile.html")
 ***REMOVED***
         return redirect(url_for("home"))
+
+
+@app.route("/delete-profile/<int:user_id>")
+@login_required
+def delete_profile(user_id):
+    user_to_delete = User.query.get(user_id)
+    db.session.delete(user_to_delete)
+***REMOVED***
+    return redirect(url_for('home'))
 
 
 @app.route("/post/<int:post_id>")
