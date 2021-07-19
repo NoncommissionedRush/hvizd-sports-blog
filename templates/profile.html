@@ -5,7 +5,11 @@
         <!-- top -->
         <div class="profile-wrapper">
         {% if current_user.is_authenticated and user_id == current_user.id %}
-        <a href="{{url_for('edit_profile', user_id=current_user.id)}}">Edit Profile</a>
+        <p>
+          <a id="btn-edit-profile" href="{{url_for('edit_profile', user_id=current_user.id)}}">Edit Profile</a>
+          |
+          <a id="btn-delete-profile" href="{{url_for('delete_profile', user_id=current_user.id)}}">Delete Profile</a>
+        </p>
         {% endif %}
           <div class="profile-top py-1">
             <div class="medium my-1">
