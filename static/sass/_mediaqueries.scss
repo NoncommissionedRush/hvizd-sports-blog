@@ -101,7 +101,7 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
   .profiles {
     display: flex;
     flex-direction: column;
@@ -150,4 +150,15 @@
       max-width: 100%;
     }
   }
-}
+
+  .side-post { 
+    display: block;
+    &-thumb {
+      display: block;
+      max-width: 100%;
+      max-height: 150px;
+      img {
+        max-height: 150px;
+      }
+    }
+}}
