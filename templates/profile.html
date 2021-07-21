@@ -72,23 +72,7 @@
           </div>
           {% endfor %}
         </div>
-        <div class="side-container">
-          <h2>Popular Articles</h2>
-          <hr />
-          {% for post in top_posts %}
-          <div class="side-post my-1">
-            <a href="{{url_for('post', post_id=post.id)}}" class="side-post-thumb highlightable"
-              ><img src="{{post.title_img}}" alt="img"
-            /></a>
-            <div class="side-post-details">
-              <h2>
-                <a href="url_for('post', post_id=post.id)">{{post.title}}</a>
-              </h2>
-              <small><i class="far fa-clock"></i> {{pretty_date(post.created_date)}}</small>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
+        {% include "top-articles.html" %}
       </div>
     </div>
   </body>

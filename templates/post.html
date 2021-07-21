@@ -25,46 +25,9 @@
           />
 
           {{post.body | safe}}
-          <h2>Comments</h2>
-          {% if current_user.is_authenticated %}
-          <form class="form my-1" action="{{url_for('add_comment', post_id=post.id)}}" method="POST">
-            <textarea name="comment" placeholder="Add comment" rows="5" required></textarea>
 
-            <button class="btn btn-success btn-md" type="submit">
-              Add comment
-            </button>
-          </form>
-          {% else %}
-          <hr />
-          {% endif %}
-          <div class="comment-thread">
-            {% for comment in post.comments %}
-            <div class="comment">
+        {% include "comments.html" %}
 
-              <div class="comment-heading">
-                <div class="comment-info">
-                  <a class="comment-author" href="profile.html"
-                    >{{comment.author.name}}</a
-                  >
-                  <p>{{pretty_date(comment.created_date)}}</p>
-                </div>
-              </div>
-              <div class="comment-body">
-                <p>
-                  {{comment.body}}
-                </p>
-                <div class="my-1">
-                  {% if current_user.is_authenticated %}
-                  <a href="#" class="btn btn-small btn-white">Flag</a>
-                  {% endif %}
-                  {% if current_user.id == comment.author.id %}
-                  <a id="btn-delete-comment" href="{{url_for('delete_comment', comment_id=comment.id)}}" class="btn btn-small btn-delete">Delete</a>
-                  {% endif %}
-                </div>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
         </div>
 
         <div class="side-container">
@@ -85,23 +48,9 @@
               {{post.author.about}}
             </p>
           </div>
-          <div class="sticky">
-            <h2>Popular Articles</h2>
-            <hr />
-            {% for post in top_posts %}
-            <div class="side-post my-1">
-              <a href="{{url_for('post', post_id=post.id)}}" class="side-post-thumb highlightable"
-                ><img src="{{post.title_img}}" alt="img"
-              /></a>
-              <div class="side-post-details">
-                <h2>
-                  <a href="{{url_for('post', post_id=post.id)}}">{{post.title}}</a>
-                </h2>
-                <small><i class="far fa-clock"></i> {{pretty_date(post.created_date)}}</small>
-              </div>
-            </div>
-            {% endfor %}
-          </div>
+
+          {% include "top-articles.html" %}
+          
         </div>
       </div>
     </div>
