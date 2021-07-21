@@ -1,182 +1,22 @@
 ***REMOVED***
-import datetime
-***REMOVED***
-from flask import Flask, request, flash, url_for, abort
+from flask ***REMOVED***quest, flash, url_for, abort
 from flask.templating ***REMOVED***nder_template
+from flask_login.login_manager import LoginManager
 from flask_login.utils import login_required, login_user, current_user, logout_user
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils ***REMOVED***direct, secure_filename
-from flask_login import LoginManager, UserMixin
-from flask_ckeditor import CKEditor
+from functions import is_safe_url, validate, update_user, update_post, get_popular_posts, allowed_file
+from config import DEFAULT_POST_IMG, app, db
+***REMOVED***, Comment
 
-
-# ------------------------------- Set up app and db -----------------------------------
-UPLOAD_FOLDER = './static/img'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
-DEFAULT_POST_IMG = "../static/img/default-post-img.jpg"
-
-
-app = Flask(__name__)
-app.config["SECRET_KEY"] = "Js4kpytaKqIXow"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog-test.db"
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-db = SQLAlchemy(app)
-ckeditor = CKEditor(app)
-
-
-# ---------------------------------- upload file ---------------------------------------
-***REMOVED***
-***REMOVED***
-
-
-# ---------------------------- Set up database tables ----------------------------------
-class User(UserMixin, db.Model):
-    __tablename__ = "users"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(250), nullable=False)
-    email = db.Column(db.String(250), unique=True, nullable=False)
-    profile_img = db.Column(db.String(250), default="default-profile-img.jpeg")
-    password = db.Column(db.String(250), nullable=False)
-    fav_team = db.Column(db.String(250))
-    hometown = db.Column(db.String(250))
-    about = db.Column(db.String(550))
-    facebook = db.Column(db.String(250))
-    twitter = db.Column(db.String(250))
-    instagram = db.Column(db.String(250))
-    posts = db.relationship("Post", back_populates="author")
-
-    def __repr__(self):
-        return "<User %r>" % self.email
-
-
-class Post(db.Model):
-    __tablename__ = "posts"
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(250), nullable=False)
-    title_img = db.Column(db.String(250), default=DEFAULT_POST_IMG)
-    body = db.Column(db.Text())
-    created_date = db.Column(db.DateTime, default=datetime.datetime.now)
-    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    author = db.relationship("User", back_populates="posts")
-    views = db.Column(db.Integer, default=0)
-    comments = db.relationship("Comment", back_populates="post")
-
-
-class Comment(db.Model):
-    __tablename__ = "comments"
-    id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.Text())
-    created_date = db.Column(db.DateTime, default=datetime.datetime.now)
-    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    author = db.relationship("User")
-    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
-    post = db.relationship("Post", back_populates="comments")
-
-
-db.create_all()
-
-# --------------------------------- login manager -------------------------------------
+# ---------------------------------- LOGIN MANAGER ------------------------------------
 login_manager = LoginManager(app)
-
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
-
-# ----------------------------------- SAFE URL ------------------------------------------
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-
-
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-        raise UserWarning("This Email Is Already Registered")
-***REMOVED***
-        raise ValueError("The Passwords Do Not Match")
-***REMOVED***
-***REMOVED***
-
-
-***REMOVED***
-
-***REMOVED***
-
-***REMOVED***
-***REMOVED***
-
-***REMOVED***
-***REMOVED***
-
-
-***REMOVED***
-
-***REMOVED***
-
-***REMOVED***
-        setattr(post_to_update, attr, value)
-    
-***REMOVED***
-***REMOVED***
-
-
-***REMOVED***
-***REMOVED***
-
-
-# ------------------------------------ PRETTY DATE -------------------------------------------
-
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-    
-***REMOVED***
-
-***REMOVED***
-***REMOVED***
-
-***REMOVED***
-***REMOVED***
-
-***REMOVED***
-***REMOVED***
-***REMOVED*** "just now"
-***REMOVED***
-***REMOVED*** str(second_diff) + " seconds ago"
-***REMOVED***
-***REMOVED*** "a minute ago"
-***REMOVED***
-***REMOVED*** str(second_diff // 60) + " minutes ago"
-***REMOVED***
-***REMOVED*** "an hour ago"
-***REMOVED***
-            print(f"second_diff {second_diff}")
-***REMOVED*** str(second_diff // 3600) + " hours ago"
-***REMOVED***
-        return "Yesterday"
-***REMOVED***
-        return str(day_diff) + " days ago"
-***REMOVED***
-        return str(day_diff / 7) + " weeks ago"
-***REMOVED***
-        return str(day_diff / 30) + " months ago"
-    return str(day_diff / 365) + " years ago"
-
-***REMOVED***
-***REMOVED***
 # ------------------------------------ ROUTES -------------------------------------------
-
-
 @app.route("/")
 def home():
     all_posts = Post.query.all()
@@ -211,7 +51,6 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        # get data from html table
         name = request.form["name"]
         email = request.form["email"]
         password = request.form["password"]
@@ -269,7 +108,6 @@ def profile(user_id):
 @login_required
 def edit_profile(user_id):
     if request.method == "POST" and current_user.id == user_id:
-        # get form data
         name = request.form["name"]
         fav_team = request.form["fav-team"]
         hometown = request.form["hometown"]
@@ -284,6 +122,8 @@ def edit_profile(user_id):
     ***REMOVED***
     ***REMOVED***
     ***REMOVED***
+    ***REMOVED***
+            # save the file in the upload folder
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(new_filename)))
             profile_img = new_filename
         
@@ -321,6 +161,7 @@ def delete_profile(user_id):
 def post(post_id):
     top_posts = get_popular_posts()
     post = Post.query.get(post_id)
+    # increase post view count by one
     post.views += 1
     db.session.add(post)
 ***REMOVED***
@@ -354,11 +195,17 @@ def edit_post(post_id):
         new_title_img = request.form["title-img"]
         new_body = request.form.get("ckeditor")
 
-        post_to_edit.title = new_title
-        if new_title_img:
-            post_to_edit.title_img = new_title_img
-        post_to_edit.body = new_body
-        db.session.add(post_to_edit)
+        # post_to_edit.title = new_title
+        # if new_title_img:
+        #     post_to_edit.title_img = new_title_img
+        # post_to_edit.body = new_body
+        # db.session.add(post_to_edit)
+        # db.session.commit()
+
+        update_post(
+            title = new_title,
+            title_img = new_title_img,
+            body = new_body
     ***REMOVED***
         return redirect(url_for("post", post_id=post_to_edit.id))
     return render_template("create-post.html", is_edit=True, post_to_edit=post_to_edit, default_post_img=DEFAULT_POST_IMG)
