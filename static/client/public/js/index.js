@@ -6,14 +6,8 @@ const Confirm = {
         message: "",
         yesText: "Yes",
         noText: "No",
-        onYes: function () {
-          console.log("clicked yes");
-          return true;
-        },
-        onNo: function () {
-          console.log("clicked no");
-          return false;
-        },
+        onYes: function () {},
+        onNo: function () {},
       },
       options
 ***REMOVED***;

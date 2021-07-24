@@ -2,7 +2,7 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 1rem 2rem;
   border-bottom: 1px solid $primary_color;
   position: fixed;
@@ -12,14 +12,11 @@
 }
 
 #logo {
-  color: #fff;
-  img {
-    position: absolute;
-    top: 0;
-    left: 30px;
-    max-height: 55px;
-    width: auto;
-  }
+  position: absolute;
+  top: .1rem;
+  left: 1rem;
+  max-width: 50px;
+  height: auto;
 }
 
 .nav {
