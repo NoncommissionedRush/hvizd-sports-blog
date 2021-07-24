@@ -16,6 +16,8 @@ from functions import (
 from config import DEFAULT_POST_IMG, app, db
 ***REMOVED***, Comment
 
+db.create_all()
+
 # ---------------------------------- LOGIN MANAGER ------------------------------------
 login_manager = LoginManager(app)
 

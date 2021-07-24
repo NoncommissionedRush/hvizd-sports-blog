@@ -13,4 +13,3 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 db = SQLAlchemy(app)
 ckeditor = CKEditor(app)
 
-db.create_all()
