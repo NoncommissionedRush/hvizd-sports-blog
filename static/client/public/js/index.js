@@ -4,8 +4,8 @@ const Confirm = {
       {},
       {
         message: "",
-        yesText: "Yes",
-        noText: "No",
+        yesText: "Áno",
+        noText: "Nie",
         onYes: function () {},
         onNo: function () {},
       },
@@ -62,7 +62,7 @@ if (btnDeletePost){
     btnDeletePost.addEventListener("click", (e) => {
       e.preventDefault()
       Confirm.open({
-          message: "Are you sure you want to delete the post?",
+          message: "Určite chcete zmazať článok?",
           onYes: () => {
               window.location.href = e.target.href;
           }
@@ -75,7 +75,7 @@ if (btnDeleteProfile){
     btnDeleteProfile.addEventListener("click", (e) => {
       e.preventDefault();
       Confirm.open({
-        message: "Are you sure you want to delete the profile?",
+        message: "Určite chcete zmazať svoj profil?",
         onYes: () => {
           window.location.href = e.target.href;
         },
@@ -88,7 +88,7 @@ if (btnDeleteComment){
     btnDeleteComment.addEventListener("click", (e) => {
       e.preventDefault();
       Confirm.open({
-        message: "Are you sure you want to delete the comment?",
+        message: "Určite chcete zmazať komentár?",
         onYes: () => {
           window.location.href = e.target.href;
         },

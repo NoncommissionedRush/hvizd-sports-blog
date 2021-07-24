@@ -6,9 +6,9 @@
         <div class="profile-wrapper">
         {% if current_user.is_authenticated and user_id == current_user.id %}
         <p>
-          <a id="btn-edit-profile" href="{{url_for('edit_profile', user_id=current_user.id)}}">Edit Profile</a>
+          <a id="btn-edit-profile" href="{{url_for('edit_profile', user_id=current_user.id)}}">Upraviť Profil</a>
           |
-          <a id="btn-delete-profile" href="{{url_for('delete_profile', user_id=current_user.id)}}">Delete Profile</a>
+          <a id="btn-delete-profile" href="{{url_for('delete_profile', user_id=current_user.id)}}">Zmazať Profil</a>
         </p>
         {% endif %}
           <div class="profile-top py-1">
@@ -37,15 +37,15 @@
             </div>
           </div>
           <div class="profile-about my-1">
-            <h2 class="text-primary text-l">Bio</h2>
+            <h2 class="text-primary text-l">O mne</h2>
             <p class="text-lead">
               {{user['about'] if user.about}}
             </p>
           </div>
           {% if current_user.is_authenticated %}
-          <h2 class="text-primary text-l my-1">Posts | <a href="{{url_for('create_post')}}">New <i class="fas fa-edit fa-sm"></i></a></h2>
+          <h2 class="text-primary text-l my-1">Články | <a href="{{url_for('create_post')}}">Nový <i class="fas fa-edit fa-sm"></i></a></h2>
           {% else %}
-          <h2 class="text-primary text-l my-1">Posts</a></h2>
+          <h2 class="text-primary text-l my-1">Články</a></h2>
           {% endif %}
           <hr />
           <!-- <div class="line"></div> -->
@@ -67,7 +67,7 @@
               <p>
                 {{post.body | safe | truncate(160)}}
               </p>
-              <a class="btn btn-primary" href="{{url_for('post', post_id=post.id)}}">Read more</a>
+              <a class="btn btn-primary" href="{{url_for('post', post_id=post.id)}}">Zobraziť viac</a>
             </div>
           </div>
           {% endfor %}

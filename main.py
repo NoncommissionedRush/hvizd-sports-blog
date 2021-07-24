@@ -35,10 +35,10 @@ def home():
     return render_template("blog.html", all_posts=all_posts, top_posts=top_posts)
 
 
-@app.route("/fans")
-def fans():
-    all_users = User.query.all()
-    return render_template("fans.html", all_users=all_users)
+# @app.route("/fans")
+# def fans():
+#     all_users = User.query.all()
+#     return render_template("fans.html", all_users=all_users)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -55,7 +55,7 @@ def login():
             login_user(existing_user)
 ***REMOVED*** redirect(url_for("home"))
     ***REMOVED***
-            flash("Invalid Credentials")
+            flash("Nesprávne prihlasovacie údaje")
 ***REMOVED*** redirect(url_for("login"))
 
     return render_template("login.html")

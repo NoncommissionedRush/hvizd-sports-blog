@@ -17,20 +17,20 @@
     ></script>
     
     <script defer src="{{url_for('static', filename='client/public/js/index.js')}}" crossorigin="anonymous"></script>
-    <title>NFL Blog</title>
+    <title>Hvizd</title>
   </head>
   <body>
     <nav class="navbar bg-primary">
       <a href="{{url_for('home')}}"><img id='logo' src="../static/img/logo-no-background.png" alt="logo"></a>
       <ul class="nav">
-        <li><a href="{{url_for('fans')}}">Authors</a></li>
+        {# <li><a href="{{url_for('fans')}}">Autori</a></li> #}
         <li><a href="{{url_for('home')}}">Blog</a></li>
         {% if current_user.is_authenticated %}
-          <li><a href="{{url_for('profile', user_id=current_user.id)}}">My Profile</a></li>
-          <li><a href="{{url_for('logout')}}">Logout</a></li>
+          <li><a href="{{url_for('profile', user_id=current_user.id)}}">Môj Profil</a></li>
+          <li><a href="{{url_for('logout')}}">Odhlásiť</a></li>
         {% else %}
-          <li><a href="{{url_for('login')}}">Login</a></li>
-          <li><a href="{{url_for('register')}}">Register</a></li>
+          <li><a href="{{url_for('login')}}">Prihlásiť</a></li>
+          <li><a href="{{url_for('register')}}">Zaregistrovať</a></li>
         {% endif %}
       </ul>
     </nav>

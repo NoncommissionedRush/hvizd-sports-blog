@@ -1,8 +1,7 @@
 {% include "header.html" %}
 
     <div class="container">
-      <h1 class="text-xl text-primary">Blog
-      </h1>
+      <h1 class="text-xl text-primary">Blog</h1>
       <div class="container-grid">
         <div class="main-content">
         {% for post in all_posts %}
@@ -22,7 +21,7 @@
               <p>
                 {{post.body | safe | truncate(140)}}
               </p>
-              <a class="btn btn-primary" href="{{url_for('post', post_id=post.id)}}">Read more</a>
+              <a class="btn btn-primary" href="{{url_for('post', post_id=post.id)}}">Zobraziť viac</a>
             </div>
           </div>
         {% endfor %}
