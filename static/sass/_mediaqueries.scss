@@ -101,6 +101,15 @@
   }
 }
 
+@media (max-width: 490px){
+  .side-post h2 {
+    margin: 0;
+  }
+  .side-post small {
+    margin-top: .5rem;
+  }
+}
+
 @media (max-width: 420px) {
   .profiles {
     display: flex;

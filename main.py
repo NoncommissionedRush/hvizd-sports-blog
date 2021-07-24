@@ -4,17 +4,26 @@ from flask.templating ***REMOVED***nder_template
 from flask_login.login_manager import LoginManager
 from flask_login.utils import login_required, login_user, current_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
-from werkzeug.utils ***REMOVED***direct, secure_filename
-from functions import is_safe_url, validate, update_user, update_post, get_popular_posts, allowed_file
+from werkzeug.utils ***REMOVED***direct
+from functions import (
+    is_safe_url,
+    validate,
+    update_user,
+    update_post,
+    get_popular_posts,
+    save_img
+)
 from config import DEFAULT_POST_IMG, app, db
 ***REMOVED***, Comment
 
 # ---------------------------------- LOGIN MANAGER ------------------------------------
 login_manager = LoginManager(app)
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
 
 # ------------------------------------ ROUTES -------------------------------------------
 @app.route("/")
@@ -38,7 +47,9 @@ def login():
 
     ***REMOVED***
 
-        if bool(existing_user) and check_password_hash(existing_user.password, password):
+        if bool(existing_user) and check_password_hash(
+            existing_user.password, password
+    ***REMOVED***:
             login_user(existing_user)
 ***REMOVED*** redirect(url_for("home"))
     ***REMOVED***
@@ -115,18 +126,10 @@ def edit_profile(user_id):
         facebook = request.form["facebook"]
         twitter = request.form["twitter"]
         instagram = request.form["instagram"]
-        file = request.files['file']
+        file = request.files["file"]
         profile_img = current_user.profile_img
 
-    ***REMOVED***
-    ***REMOVED***
-    ***REMOVED***
-    ***REMOVED***
-    ***REMOVED***
-            # save the file in the upload folder
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(new_filename)))
-            profile_img = new_filename
-        
+        profile_img = save_img(file, profile_img)
 
         update_user(
             user_id,
@@ -148,13 +151,14 @@ def edit_profile(user_id):
         return redirect(url_for("home"))
 
 
+
 @app.route("/delete-profile/<int:user_id>")
 @login_required
 def delete_profile(user_id):
     user_to_delete = User.query.get(user_id)
     db.session.delete(user_to_delete)
 ***REMOVED***
-    return redirect(url_for('home'))
+    return redirect(url_for("home"))
 
 
 @app.route("/post/<int:post_id>")
@@ -165,7 +169,7 @@ def post(post_id):
     post.views += 1
     db.session.add(post)
 ***REMOVED***
-    return render_template("post.html", post=post, top_posts=top_posts)
+    return render_template("post.html", post=post, top_posts=top_posts, default_post_img=DEFAULT_POST_IMG)
 
 
 @app.route("/create-post", methods=["GET", "POST"])
@@ -173,7 +177,7 @@ def post(post_id):
 def create_post():
     if request.method == "POST":
         post_title = request.form["post-title"]
-        title_img = request.form["title-img"] if request.form['title-img'] else None
+        title_img = request.form["title-img"] if request.form["title-img"] else None
         post_body = request.form.get("ckeditor")
 
         new_post = Post(
@@ -192,23 +196,17 @@ def edit_post(post_id):
     post_to_edit = Post.query.get(post_id)
     if request.method == "POST":
         new_title = request.form["post-title"]
-        new_title_img = request.form["title-img"]
+        new_title_img = request.form["title-img"] if request.form["title-img"] else DEFAULT_POST_IMG
         new_body = request.form.get("ckeditor")
 
-        # post_to_edit.title = new_title
-        # if new_title_img:
-        #     post_to_edit.title_img = new_title_img
-        # post_to_edit.body = new_body
-        # db.session.add(post_to_edit)
-        # db.session.commit()
-
-        update_post(
-            title = new_title,
-            title_img = new_title_img,
-            body = new_body
-    ***REMOVED***
+        update_post(post_id, title=new_title, title_img=new_title_img, body=new_body)
         return redirect(url_for("post", post_id=post_to_edit.id))
-    return render_template("create-post.html", is_edit=True, post_to_edit=post_to_edit, default_post_img=DEFAULT_POST_IMG)
+    return render_template(
+        "create-post.html",
+        is_edit=True,
+        post_to_edit=post_to_edit,
+        default_post_img=DEFAULT_POST_IMG,
+***REMOVED***
 
 
 @app.route("/delete-post/<int:post_id>")

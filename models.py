@@ -25,7 +25,7 @@ class User(UserMixin, db.Model):
 class Post(db.Model):
     __tablename__ = "posts"
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(250), nullable=False)
+    title = db.Column(db.String(50), nullable=False)
     title_img = db.Column(db.String(250), default=DEFAULT_POST_IMG)
     body = db.Column(db.Text())
     created_date = db.Column(db.DateTime, default=datetime.datetime.now)

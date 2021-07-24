@@ -20,7 +20,7 @@
                 <a href="{{url_for('post', post_id=post.id)}}">{{post.title}}</a>
               </h2>
               <p>
-                {{post.body | safe | truncate(160)}}
+                {{post.body | safe | truncate(140)}}
               </p>
               <a class="btn btn-primary" href="{{url_for('post', post_id=post.id)}}">Read more</a>
             </div>

@@ -14,6 +14,7 @@
   }
 
   &-thumb {
+    min-height: 180px;
     max-height: 240px;
     img {
       max-width: 390px;
@@ -47,8 +48,7 @@
   &-thumb {
     min-width: 140px;
     max-width: 160px;
-    max-height: 80px;
-    height: auto;
+    // max-height: 80px;
     margin-right: 1rem;
 
     img {
