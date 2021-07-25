@@ -16,7 +16,7 @@
 
     <div class="comment-heading">
     <div class="comment-info">
-        <a class="comment-author" href="{{url_for('profile', profile_id=comment.author.id)}}"
+        <a class="comment-author" href="{{url_for('profile', user_id=comment.author.id)}}"
         >{{comment.author.name}}</a
         >
         <p>{{pretty_date(comment.created_date)}}</p>
