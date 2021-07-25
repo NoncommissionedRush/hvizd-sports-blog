@@ -1,4 +1,3 @@
-***REMOVED***
 from flask ***REMOVED***quest, flash, url_for, abort
 from flask.templating ***REMOVED***nder_template
 from flask_login.login_manager import LoginManager
@@ -33,7 +32,7 @@ def load_user(user_id):
 def home():
     all_posts = Post.query.all()
     top_posts = get_popular_posts()
-    return render_template("blog.html", all_posts=all_posts, top_posts=top_posts, default_post_img=DEFAULT_POST_IMG)
+    return render_template("blog.html", all_posts=all_posts, top_posts=top_posts)
 
 
 # @app.route("/fans")
@@ -115,7 +114,7 @@ def profile(user_id):
         user=user,
         user_posts=user_posts,
         top_posts=top_posts,
-        default_post_img=DEFAULT_POST_IMG
+
 ***REMOVED***
 
 
@@ -173,7 +172,7 @@ def post(post_id, post_title):
     post.views += 1
     db.session.add(post)
 ***REMOVED***
-    return render_template("post.html", post=post, top_posts=top_posts, default_post_img=DEFAULT_POST_IMG)
+    return render_template("post.html", post=post, top_posts=top_posts)
 
 
 @app.route("/create-post", methods=["GET", "POST"])
@@ -208,8 +207,7 @@ def edit_post(post_id):
     return render_template(
         "create-post.html",
         is_edit=True,
-        post_to_edit=post_to_edit,
-        default_post_img=DEFAULT_POST_IMG,
+        post_to_edit=post_to_edit
 ***REMOVED***
 
 

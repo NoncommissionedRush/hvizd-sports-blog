@@ -12,6 +12,8 @@ app.config["SECRET_KEY"] = "hovienko"
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///blog.db")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.jinja_env.globals.update(default_post_img=DEFAULT_POST_IMG)
+
 db = SQLAlchemy(app)
 ckeditor = CKEditor(app)
 
