@@ -7,7 +7,7 @@
         {% for post in all_posts %}
           <div class="post my-1 py-1">
             <a href="{{url_for('post', post_id=post.id)}}" class="post-thumb highlightable"
-              ><img src="{{post.title_img}}" alt="img"
+              ><img src="{{url_for('static', filename='img/default-post-img.jpg')}}" alt="img"
             /></a>
             <div class="post-details">
               <small

@@ -20,7 +20,7 @@
         <div class="post-body">
           <img
             class="title-img my-1"
-            src="{{post.title_img}}"
+            src="{{url_for('static', filename='img/default-post-img.jpg')}}"
             onerror="this.onerror=null; this.src='{{default_post_img}}'"
             alt="post-image"
           />
@@ -39,7 +39,7 @@
               <a href="{{url_for('profile', user_id=post.author.id)}}">
                 <div class="profile-img img-round highlightable">
                   <img
-                    src="../static/img/{{post.author.profile_img}}"
+                    src="{{url_for('static', filename='img/default-profile-img.jpeg')}}"
                     alt="profilepicture"
                   />
                 </div>
