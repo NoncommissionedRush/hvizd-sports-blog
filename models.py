@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
     facebook = db.Column(db.String(250))
     twitter = db.Column(db.String(250))
     instagram = db.Column(db.String(250))
-    posts = db.relationship("Post", back_populates="author")
+    posts = db.relationship("Post", back_populates="author", cascade="all,delete")
 
     def __repr__(self):
         return "<User %r>" % self.email

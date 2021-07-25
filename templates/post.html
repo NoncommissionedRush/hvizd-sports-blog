@@ -21,7 +21,7 @@
           <img
             class="title-img my-1"
             src="{{post.title_img}}"
-            onerror="this.onerror=null; this.src='{{default_post_img}}'"
+            onerror="this.onerror=null; this.src='{{url_for('static', filename='img/'+default_post_img)}}'"
             alt="post_title_image"
           />
 

@@ -11,7 +11,8 @@ from functions import (
     update_user,
     update_post,
     get_popular_posts,
-    save_img
+    save_img, 
+    kebab
 )
 from config import DEFAULT_POST_IMG, app, db
 ***REMOVED***, Comment
@@ -32,7 +33,7 @@ def load_user(user_id):
 def home():
     all_posts = Post.query.all()
     top_posts = get_popular_posts()
-    return render_template("blog.html", all_posts=all_posts, top_posts=top_posts)
+    return render_template("blog.html", all_posts=all_posts, top_posts=top_posts, default_post_img=DEFAULT_POST_IMG)
 
 
 # @app.route("/fans")
@@ -114,6 +115,7 @@ def profile(user_id):
         user=user,
         user_posts=user_posts,
         top_posts=top_posts,
+        default_post_img=DEFAULT_POST_IMG
 ***REMOVED***
 
 
@@ -202,7 +204,7 @@ def edit_post(post_id):
         new_body = request.form.get("ckeditor")
 
         update_post(post_id, title=new_title, title_img=new_title_img, body=new_body)
-        return redirect(url_for("post", post_id=post_to_edit.id))
+        return redirect(url_for("post", post_id=post_to_edit.id, post_title=kebab(post_to_edit.title)))
     return render_template(
         "create-post.html",
         is_edit=True,

@@ -8,7 +8,7 @@
           <div class="post my-1 py-1">
             <a href="{{url_for('post', post_id=post.id, post_title=kebab(post.title))}}" class="post-thumb highlightable"
               ><img src="{{post.title_img}}"
-            onerror="this.onerror=null; this.src='{{default_post_img}}'" alt="post_title_img"
+            onerror="this.onerror=null; this.src='{{url_for('static', filename='img/'+default_post_img)}}'" alt="post_title_img"
             /></a>
             <div class="post-details">
               <small
