@@ -7,7 +7,8 @@
         {% for post in all_posts %}
           <div class="post my-1 py-1">
             <a href="{{url_for('post', post_id=post.id, post_title=kebab(post.title))}}" class="post-thumb highlightable"
-              ><img src="{{url_for('static', filename='img/'+post.title_img)}}" alt="post_title_img"
+              ><img src="{{post.title_img)}}"
+            onerror="this.onerror=null; this.src='{{default_post_img}}'" alt="post_title_img"
             /></a>
             <div class="post-details">
               <small
