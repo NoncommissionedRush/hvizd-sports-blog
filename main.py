@@ -163,8 +163,8 @@ def delete_profile(user_id):
     return redirect(url_for("home"))
 
 
-@app.route("/post/<int:post_id>")
-def post(post_id):
+@app.route("/post/<int:post_id>/title/<string:post_title>")
+def post(post_id, post_title):
     top_posts = get_popular_posts()
     post = Post.query.get(post_id)
     # increase post view count by one

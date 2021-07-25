@@ -52,7 +52,7 @@
           {% for post in user_posts %}
 
           <div class="post py-1">
-            <a href="{{url_for('post', post_id=post.id)}}" class="post-thumb highlightable"
+            <a href="{{url_for('post', post_id=post.id, post_title=kebab(post.title))}}" class="post-thumb highlightable"
               ><img src="{{url_for('static', filename='img/'+post.title_img)}}" alt="post_title_img"
             /></a>
             <div class="post-details">
@@ -62,12 +62,12 @@
                 <i class="far fa-clock"></i> {{pretty_date(post.created_date)}}</small
               >
               <h2>
-                <a href="{{url_for('post', post_id=post.id)}}">{{post.title}}</a>
+                <a href="{{url_for('post', post_id=post.id, post_title=kebab(post.title))}}">{{post.title}}</a>
               </h2>
               <p>
                 {{post.body | safe | truncate(160)}}
               </p>
-              <a class="btn btn-primary" href="{{url_for('post', post_id=post.id)}}">Zobraziť viac</a>
+              <a class="btn btn-primary" href="{{url_for('post', post_id=post.id, post_title=kebab(post.title))}}">Zobraziť viac</a>
             </div>
           </div>
           {% endfor %}

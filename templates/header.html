@@ -21,7 +21,7 @@
   </head>
   <body>
     <nav class="navbar bg-primary">
-      <a href="{{url_for('home')}}"><img id='logo' src="../static/img/logo-no-background.png" alt="logo"></a>
+      <a href="{{url_for('home')}}"><img id='logo' src="{{url_for('static', filename='img/lgoo-no-background.png')}}" alt="logo"></a>
       <ul class="nav">
         {# <li><a href="{{url_for('fans')}}">Autori</a></li> #}
         <li><a href="{{url_for('home')}}">Blog</a></li>
