@@ -41,6 +41,6 @@ class Comment(db.Model):
     body = db.Column(db.Text())
     created_date = db.Column(db.DateTime, default=datetime.datetime.now)
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    author = db.relationship("User")
+    author = db.relationship("User", backref=db.backref("comments", cascade="all,delete"))
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     post = db.relationship("Post", back_populates="comments")

@@ -164,7 +164,7 @@ def delete_profile(user_id):
     return redirect(url_for("home"))
 
 
-@app.route("/post/<int:post_id>/title/<post_title>")
+@app.route("/post/<int:post_id>/<post_title>")
 def post(post_id, **kwargs):
     top_posts = get_popular_posts()
     post = Post.query.get(post_id)
@@ -189,7 +189,7 @@ def create_post():
 
         db.session.add(new_post)
     ***REMOVED***
-        return redirect(url_for("profile", user_id=current_user.id))
+        return redirect(url_for("post", post_id=new_post.id, post_title=kebab(new_post.title)))
     return render_template("create-post.html")
 
 
@@ -203,7 +203,7 @@ def edit_post(post_id):
         new_body = request.form.get("ckeditor")
 
         update_post(post_id, title=new_title, title_img=new_title_img, body=new_body)
-        return redirect(url_for("post", post_id=post_to_edit.id))
+        return redirect(url_for("post", post_id=post_to_edit.id, post_title=kebab(post_to_edit.title)))
     return render_template(
         "create-post.html",
         is_edit=True,
@@ -231,7 +231,7 @@ def add_comment(post_id):
     ***REMOVED***
         db.session.add(new_comment)
     ***REMOVED***
-        return redirect(url_for("post", post_id=post_id))
+        return redirect(url_for("post", post_id=post_id, post_title=kebab(post.title)))
 
 
 @app.route("/delete-comment/<int:comment_id>")
