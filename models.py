@@ -32,7 +32,7 @@ class Post(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     author = db.relationship("User", back_populates="posts")
     views = db.Column(db.Integer, default=0)
-    comments = db.relationship("Comment", back_populates="post")
+    comments = db.relationship("Comment", back_populates="post", cascade="all,delete")
 
 
 class Comment(db.Model):
