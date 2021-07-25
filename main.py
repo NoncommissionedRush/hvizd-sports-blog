@@ -164,8 +164,8 @@ def delete_profile(user_id):
     return redirect(url_for("home"))
 
 
-@app.route("/post/<int:post_id>/title/<string:post_title>")
-def post(post_id, post_title):
+@app.route("/post/<int:post_id>/title/<post_title>")
+def post(post_id, **kwargs):
     top_posts = get_popular_posts()
     post = Post.query.get(post_id)
     # increase post view count by one
@@ -203,7 +203,7 @@ def edit_post(post_id):
         new_body = request.form.get("ckeditor")
 
         update_post(post_id, title=new_title, title_img=new_title_img, body=new_body)
-        return redirect(url_for("post", post_id=post_to_edit.id, post_title=kebab(post_to_edit.title)))
+        return redirect(url_for("post", post_id=post_to_edit.id))
     return render_template(
         "create-post.html",
         is_edit=True,
@@ -223,10 +223,11 @@ def delete_post(post_id):
 @app.route("/add-comment/<int:post_id>", methods=["POST"])
 @login_required
 def add_comment(post_id):
+    post = Post.query.get(post_id)
     if request.method == "POST":
         comment_body = request.form["comment"]
         new_comment = Comment(
-            body=comment_body, author=current_user, post=Post.query.get(post_id)
+            body=comment_body, author=current_user, post=post
     ***REMOVED***
         db.session.add(new_comment)
     ***REMOVED***
