@@ -39,7 +39,7 @@
               <a href="{{url_for('profile', user_id=post.author.id)}}">
                 <div class="profile-img img-round highlightable">
                   <img
-                    src="{{url_for('static', filename='img/default-profile-img.jpeg')}}"
+                    src="{{url_for('static', filename='img/'+post.author.profile_img)}}"
                     alt="profile_img"
                   />
                 </div>
