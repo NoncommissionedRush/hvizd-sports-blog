@@ -4,7 +4,7 @@
     {% for post in top_posts %}
     <div class="side-post my-1">
     <a href="{{url_for('post', post_id=post.id, post_title=kebab(post.title))}}" class="side-post-thumb highlightable"
-        ><img src="{{post.title_img)}}"
+        ><img src="{{post.title_img}}"
             onerror="this.onerror=null; this.src='{{default_post_img}}'" alt="post_title_img"
     /></a>
     <div class="side-post-details">
