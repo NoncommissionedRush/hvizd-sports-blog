@@ -11,7 +11,8 @@ from functions import (
     update_post,
     get_popular_posts,
     save_img, 
-    kebab
+    kebab,
+    send_password_reset_link
 )
 from config import DEFAULT_POST_IMG, app, db
 ***REMOVED***, Comment
@@ -91,7 +92,7 @@ def register():
             if not is_safe_url(next):
     ***REMOVED*** abort(400)
 
-***REMOVED*** redirect(url_for("profile", user_id=new_user.id))
+***REMOVED*** redirect(url_for("home"))
 
     return render_template("register.html")
 
@@ -101,6 +102,37 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for("home"))
+
+
+@app.route("/password-reset-request", methods=["GET", "POST"])
+def password_reset_request():
+    if request.method == "POST":
+        email = request.form['email']
+        print(f"email je {email}")
+        user = User.query.filter_by(email=email).first()
+        send_password_reset_link(user)
+        return redirect(url_for('login'))
+
+    return render_template("password-reset.html", request=True)
+
+
+@app.route("/password-reset/<int:user_id>/<string:hash>", methods=["GET", "POST"])
+def password_reset(user_id, hash):
+    if request.method == "POST":
+        password = request.form['password']
+        confirm_password = request.form['confirm-password']
+        user = User.query.get(user_id)
+        if password == confirm_password:
+            update_user(
+                user_id,
+                password=generate_password_hash(password, method="pbkdf2:sha256", salt_length=8)
+        ***REMOVED***
+            login_user(user)
+***REMOVED*** redirect(url_for("home"))
+    ***REMOVED***
+            flash("Heslá sa musia zhodovať")
+***REMOVED*** redirect(url_for("password_reset", user_id=user_id, hash=hash))
+    return render_template("password-reset.html", user_id=user_id, hash=hash, request=False)
 
 
 @app.route("/profile/<int:user_id>")
@@ -149,10 +181,10 @@ def edit_profile(user_id):
         return redirect(url_for("profile", user_id=user_id))
 
     if current_user.id == user_id:
-        return render_template("edit-profile.html")
+        hash = current_user.password.split("$")[-1]
+        return render_template("edit-profile.html", hash=hash)
 ***REMOVED***
         return redirect(url_for("home"))
-
 
 
 @app.route("/delete-profile/<int:user_id>")
