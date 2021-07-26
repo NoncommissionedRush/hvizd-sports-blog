@@ -45,6 +45,10 @@
           <input class="input-instagram" type="text" name="instagram" value="{{current_user.instagram if current_user.instagram}}" onClick="this.select();">
         </div>
 
+        <div class="my-1">
+          <h4><a href="{{url_for('password_reset', user_id=current_user.id, hash=hash)}}">Zmeniť heslo</a><h4>
+        </div>
+
         <button class="btn btn-primary btn-lg" type="submit" onClick="this.select();">Odoslať</button>
       </form>
     </div>
