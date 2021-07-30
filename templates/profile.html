@@ -24,18 +24,15 @@
             <h1 class="text-l">{{user['name']}}</h1>
             <p class="text-lead">{{user['fav_team'] if user.fav_team}}</p>
             <p>{{user.hometown if user.hometown}}</p>
-            <div class="my-1">
+            <div class="my-1 slnks">
               <a href="http://www.facebook.com/{{user.facebook}}">
-                {# <i class="fab fa-facebook fa-2x"></i> #}
-                fb
+                <i class="fab fa-facebook fa-2x"></i>
               </a>
               <a href="http://www.twitter.com/{{user.twitter}}">
-                {# <i class="fab fa-twitter fa-2x"></i> #}
-                tw
+                <i class="fab fa-twitter fa-2x"></i>
               </a>
               <a href="http://www.instagram.com/{{current_user.instagram}}">
-                {# <i class="fab fa-instagram fa-2x"></i> #}
-                inst
+                <i class="fab fa-instagram fa-2x"></i>
               </a>
             </div>
             <p>Testing testing testing</p>
