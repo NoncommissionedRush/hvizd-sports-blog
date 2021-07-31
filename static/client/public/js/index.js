@@ -138,3 +138,28 @@ if (btnForgotPassword) {
     });
   })
 }
+
+btnHam = document.querySelector(".ham")
+if (btnHam) {
+  btnHam.addEventListener("click", (e) => {
+    e.preventDefault()
+    btnHamX = document.querySelector(".ham-x")
+    btnHamX.classList.remove("hidden")
+    btnHam.classList.add("hidden")
+    navMenu = document.querySelector(".nav")
+    navMenu.style.display = "block"
+  })
+}
+
+btnHamX = document.querySelector(".ham-x")
+if (btnHamX) {
+  btnHamX.addEventListener("click", (e) => {
+    e.preventDefault()
+    btnHam = document.querySelector(".ham")
+    btnHam.classList.remove("hidden")
+    btnHamX = document.querySelector(".ham-x")
+    btnHamX.classList.add("hidden")
+    navMenu = document.querySelector(".nav")
+    navMenu.style.display = "none"
+  })
+}
