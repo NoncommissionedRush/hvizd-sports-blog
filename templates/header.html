@@ -22,7 +22,9 @@
   <body>
     <nav class="navbar bg-primary">
       <a href="{{url_for('home')}}"><img id='logo' src="{{url_for('static', filename='img/logo-no-background.png')}}" alt="logo"></a>
-      <ul class="nav">
+      <a class="ham" href="{{url_for('home')}}"><i class="fas fa-bars fa-2x"></i></a>
+      <a class="ham-x hidden" href="{{url_for('home')}}"><i class="fas fa-times fa-2x"></i></a>
+      <ul class="nav p-1">
         {# <li><a href="{{url_for('fans')}}">Autori</a></li> #}
         <li><a href="{{url_for('home')}}">Blog</a></li>
         {% if current_user.is_authenticated %}
