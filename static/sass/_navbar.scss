@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 1rem 2rem;
+  // padding: 1rem 2rem;
   border-bottom: 1px solid $primary_color;
   position: fixed;
   z-index: 1;
@@ -33,6 +33,25 @@
     color: $secondary_color;
   }
 }
+
+.ham, .ham-x {
+  color: #fff;
+  padding-top: 1rem;
+  padding-bottom: .4rem;
+  padding-right: 1rem;
+}
+
+.ham {
+  display: none;
+}
+
+.ham-x {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 99;
+}
+
 
 // landing
 .landing {

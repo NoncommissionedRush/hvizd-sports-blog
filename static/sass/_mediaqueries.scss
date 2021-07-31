@@ -82,6 +82,13 @@
   }
 }
 
+@media (min-width: 750px) {
+  .nav {
+    display: flex !important;
+  }
+}
+
+
 @media (max-width: 750px) {
   .post {
     display: flex;
@@ -99,6 +106,24 @@
       max-width: 100%;
     }
   }
+
+  .ham {
+    display: block;
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    display: none;
+    background: $primary-color;
+    text-align: center;
+    width: 100%;
+
+    li {
+      padding: .5rem 0;
+    }
+  }
+
 }
 
 @media (max-width: 490px){
