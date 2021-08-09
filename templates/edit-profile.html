@@ -1,4 +1,4 @@
-{% include "header.html" %}
+ class="social-placeholder"{% include "header.html" %}
     <div class="container">
       <a class="btn btn-light my-1" href="{{url_for('profile', user_id=current_user.id)}}">Späť</a>
       <h2><i class="fas fa-user"></i> Upraviť Profil</h2>
@@ -29,19 +29,19 @@
         
         <div class="input-container my-1">
           <label for="facebook">Facebook</label>
-          <span>www.facebook.com/</span>
+          <span class="social-placeholder">www.facebook.com/</span>
           <input class="input-facebook" type="text" name="facebook" value="{{current_user.facebook if current_user.facebook}}" onClick="this.select();">
         </div>
         
         <div class="input-container my-1">
           <label for="twitter">Twitter</label>
-          <span>www.twitter.com/</span>
+          <span class="social-placeholder">www.twitter.com/</span>
           <input class="input-twitter" type="text" name="twitter" value="{{current_user.twitter if current_user.twitter}}" onClick="this.select();">
         </div>
         
         <div class="input-container my-1">
           <label for="instagram">Instagram</label>
-          <span>www.instagram.com/</span>
+          <span class="social-placeholder">www.instagram.com/</span>
           <input class="input-instagram" type="text" name="instagram" value="{{current_user.instagram if current_user.instagram}}" onClick="this.select();">
         </div>
 
