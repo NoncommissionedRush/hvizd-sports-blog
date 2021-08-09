@@ -1,0 +1,181 @@
+// backgrounds
+.bg {
+  &-primary {
+    @include set-background($primary_color);
+  }
+  &-secondary {
+    @include set-background($secondary_color);
+  }
+  &-light {
+    @include set-background($light_color);
+    border: #ccc 1px solid;
+  }
+  &-dark {
+    @include set-background($dark_color);
+  }
+  &-success {
+    @include set-background($success_color);
+  }
+  &-danger {
+    @include set-background($danger_color);
+  }
+  &-white {
+    @include set-background(#fff);
+    border: #ccc 1px solid;
+  }
+}
+
+//text
+.text-xl {
+  font-size: 3rem;
+}
+
+.text-l {
+  font-size: 2rem;
+}
+
+.text-lead {
+  font-size: 1.2rem;
+}
+
+.text-primary {
+  color: $primary_color;
+}
+
+.text-grey {
+  color: #666;
+}
+
+.text-secondary {
+  color: $secondary_color;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+// buttons
+
+.btn {
+  padding: 0.5rem 1rem;
+  display: inline-block;
+  @include set-background($light_color);
+  color: #333;
+  border: none;
+  outline: none;
+  transition: 0.2s all ease-in-out;
+  border-radius: 2%;
+  font-size: 1rem;
+
+  &:hover {
+    cursor: pointer;
+    color: #fff;
+  }
+
+  &:first-child {
+    margin-right: 1rem;
+  }
+
+  &-small {
+    padding: .3rem .5rem .2rem;
+  }
+
+  &-primary {
+    @include set-background($primary_color);
+    &:hover {
+      background: lighten($primary_color, 10%);
+      color: #fff !important;
+    }
+  }
+  &-secondary {
+    @include set-background($secondary_color);
+    &:hover {
+      background: lighten($secondary_color, 7%);
+    }
+  }
+  &-dark {
+    @include set-background($dark_color);
+    &:hover {
+      background: lighten($dark_color, 7%);
+    }
+  }
+
+  &-light:hover {
+    background: lighten(#000, 80%);
+    color: #666;
+  }
+
+  &-success {
+    @include set-background($success_color);
+    &:hover {
+      background: lighten($success_color, 7%);
+    }
+  }
+  &-danger {
+    @include set-background($danger_color);
+    &:hover {
+      background: lighten($danger_color, 7%);
+    }
+  }
+
+  &-white {
+    appearance: none;
+    @include set-background(#fff);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    &:hover {
+      background: $light_color;
+    }
+  }
+
+  &-delete {
+    appearance: none;
+    @include set-background(#fff);
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+    &:hover {
+      background: $delete_color;
+    }
+  }
+
+  &-sm {
+    padding: 0.5rem 0.8rem;
+  }
+
+  &-md {
+    padding: 0.8rem;
+  }
+
+  &-lg {
+    padding: 0.8rem 2rem;
+  }
+}
+
+// alerts
+.alert {
+  padding: 0.5rem 1rem;
+  opacity: 0.9;
+  color: #333;
+
+  &-danger {
+    @include set-background($danger_color);
+  }
+  &-success {
+    @include set-background($success_color);
+  }
+  &-primary {
+    @include set-background($primary_color);
+  }
+  &-secondary {
+    @include set-background($secondary_color);
+  }
+  &-dark {
+    @include set-background($dark_color);
+  }
+}

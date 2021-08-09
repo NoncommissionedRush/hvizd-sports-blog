@@ -1,0 +1,144 @@
+// general
+html {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+
+  &:before,
+  &:after {
+    box-sizing: inherit;
+  }
+}
+
+html,
+body {
+  font-family: "Alegreya", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.1rem;
+  background: #fff;
+  color: #333;
+  line-height: 1.6;
+  height: 100%;
+  min-height: 100%;
+}
+
+footer {
+  text-align: center;
+  font-size: .7rem;
+  background-image: url("https://www.transparenttextures.com/patterns/black-orchid.png");
+}
+
+a {
+  text-decoration: none;
+  color: $primary_color;
+
+  &:hover {
+    color: $secondary_color;
+  }
+}
+
+ul {
+  list-style: none;
+}
+
+h1 {
+  line-height: 1.2;
+}
+
+img {
+  width: 100% !important;
+  object-fit: cover !important;
+}
+
+hr {
+  border: none;
+  height: 3px;
+  color: #333;
+  background-color: #333;
+}
+
+.fas {
+  margin-right: 0 !important;
+}
+
+.img-thumb {
+  border: 10px solid #fff;
+}
+
+.tiny {
+  width: 50px;
+}
+
+.small {
+  width: 180px;
+}
+
+.medium {
+  width: 250px;
+}
+
+.profile-img {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  overflow: hidden;
+
+  img {
+    position: absolute;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+  }
+}
+
+.img-round {
+  border-radius: 50%;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: $max-width;
+  min-height: 100%;
+  padding: 5rem 1.5rem;
+}
+
+.container-grid {
+  display: grid;
+  grid-template-columns: 4fr 2fr;
+  gap: 2rem;
+}
+
+.sticky {
+  align-self: start;
+  position: sticky;
+  top: 70px;
+}
+
+.highlightable {
+  position: relative;
+
+  &:after {
+    content: "\A";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transition: all 0.2s;
+  }
+
+  &:hover:after {
+    opacity: 1;
+  }
+}
+
+
+.hidden {
+  display: none;
+}

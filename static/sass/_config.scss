@@ -1,0 +1,70 @@
+// colors
+
+$primary_color: #013369;
+$secondary_color: #d50a0a;
+$light_color: #ecf0f1;
+$dark_color: #2c3e50;
+$success_color: #27ae60;
+$danger_color: #e67e22;
+$delete_color: #d50a0a;
+$max-width: 1200px;
+
+// fonts
+
+@font-face {
+  font-family: "freshmannormal";
+  src: url("../../../freshmanfont/freshman-webfont.woff2") format("woff2"),
+    url("../../../freshmanfont/freshman-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+// mixins
+
+@mixin set-background($color) {
+  background-color: $color;
+  color: set-text-color($color);
+}
+
+// functions
+
+@function set-text-color($color) {
+  @if (lightness($color) > 60) {
+    @return #333;
+  } @else {
+    @return #fff;
+  }
+}
+
+$spaceamounts: (1, 2, 3, 4, 5);
+
+@each $amount in $spaceamounts {
+  // margin all around
+  .m-#{$amount} {
+    margin: #{$amount}rem;
+  }
+  // margin y axis
+  .my-#{$amount} {
+    margin: #{$amount}rem 0;
+  }
+
+  // margin x axis
+  .mx-#{$amount} {
+    margin: 0 #{$amount}rem;
+  }
+
+  // padding all around
+  .p-#{$amount} {
+    padding: #{$amount}rem;
+  }
+
+  // padding y axis
+  .py-#{$amount} {
+    padding: #{$amount}rem 0;
+  }
+
+  // padding x axis
+  .px-#{$amount} {
+    padding: 0 #{$amount}rem;
+  }
+}

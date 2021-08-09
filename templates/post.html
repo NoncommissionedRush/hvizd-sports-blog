@@ -1,0 +1,60 @@
+{% include "header.html" %}
+
+    <div class="container">
+      <h1 class="text-xl text-primary my-1">
+        {{post.title}}
+      </h1>
+      {% if current_user.is_authenticated and current_user.id == post.author.id%}
+      <div class="my-1">
+        <a id="btn-edit-post" class="btn btn-small btn-white" href="{{url_for('edit_post', post_id=post.id)}}">Upraviť</a>
+        <a id="btn-delete-post" class="btn btn-small btn-delete" href="{{url_for('delete_post', post_id=post.id)}}">Zmazať</a>
+      </div>
+      {% endif %}
+      <small
+        ><i class="fas fa-user"></i>
+        <a href="{{url_for('profile', user_id=post.author.id)}}">{{post.author.name}}</a>
+        <i class="far fa-clock"></i> {{pretty_date(post.created_date)}}</small
+      >
+
+      <div class="container-grid">
+        <div class="post-body">
+          <img
+            class="title-img my-1"
+            src="{{post.title_img}}"
+            onerror="this.onerror=null; this.src='{{url_for('static', filename='img/'+default_post_img)}}'"
+            alt="post_title_image"
+          />
+
+          {{post.body | safe}}
+
+        {% include "comments.html" %}
+
+        </div>
+
+        <div class="side-container">
+          <h2>{{post.author.name}}</h2>
+          <hr />
+          <div class="author-info">
+            <div class="small">
+              <a href="{{url_for('profile', user_id=post.author.id)}}">
+                <div class="profile-img img-round highlightable">
+                  <img
+                    src="{{post.author.profile_img}}"
+                    onerror="this.onerror=null; this.src='{{url_for('static', filename='img/'+default_profile_img)}}'" alt="profile_img"
+                  />
+                </div>
+              </a>
+            </div>
+            <p class="text-bold text-grey my-1">
+              {{post.author.about}}
+            </p>
+          </div>
+
+          {% include "top-articles.html" %}
+          
+        </div>
+      </div>
+    </div>
+    {% include "footer.html" %}
+  </body>
+</html>
