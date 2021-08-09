@@ -1,0 +1,53 @@
+// register & login form
+
+.register-content,
+.login-content {
+  width: 60%;
+}
+
+.form {
+
+  input {
+    display: block;
+    padding: 0.7rem 2rem;
+    // margin: 1rem 0;
+    width: 100%;
+
+    .alert {
+      width: 60%;
+    }
+  }
+
+  .input-container{
+    position:relative
+  }
+  span {
+    display: inline-block;
+    position: absolute;
+    top: 2.3rem;
+    left: 2.5rem;
+    font-size: .8rem;
+  }
+  .input-facebook {
+    padding-left: 180px;
+  }
+  .input-twitter {
+    padding-left: 160px;
+  }
+  .input-instagram {
+    padding-left:  185px;
+  }
+
+  textarea {
+    padding: 0.5rem;
+    width: 100%;
+    resize: none;
+    font-family: "Alegreya", sans-serif;
+  }
+}
+
+
+
+.fas {
+  margin-right: 1rem;
+}
