@@ -21,13 +21,15 @@
   .input-container{
     position:relative
   }
-  span {
+
+  .social-placeholder {
     display: inline-block;
     position: absolute;
-    top: 2.3rem;
+    top: 36px;
     left: 2.5rem;
     font-size: .8rem;
   }
+
   .input-facebook {
     padding-left: 180px;
   }
