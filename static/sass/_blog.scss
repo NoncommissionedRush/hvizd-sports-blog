@@ -16,9 +16,9 @@
   &-thumb {
     min-height: 180px;
     max-height: 240px;
+    display: flex;
     img {
       max-width: 390px;
-      height: 100%;
       object-fit: cover;
     }
   }
@@ -51,9 +51,9 @@
     max-width: 160px;
     // max-height: 80px;
     margin-right: 1rem;
+    display: flex;
 
     img {
-      height: 100%;
       width: 100%;
       object-fit: cover;
     }
