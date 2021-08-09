@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alegreya+Sans&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='client/public/css/style.min.css')}}" />
+    
+    <script
+      defer
+      src="https://kit.fontawesome.com/a31f9b8048.js"
+      crossorigin="anonymous"
+    ></script>
+    
+    <script defer src="{{url_for('static', filename='client/public/js/index.js')}}" crossorigin="anonymous"></script>
+    <title>Hvizd</title>
+  </head>
+  <body>
+    <nav class="navbar bg-primary">
+      <a href="{{url_for('home')}}"><img id='logo' src="{{url_for('static', filename='img/logo-no-background.png')}}" alt="logo"></a>
+      <a class="ham" href="{{url_for('home')}}"><i class="fas fa-bars fa-2x"></i></a>
+      <a class="ham-x hidden" href="{{url_for('home')}}"><i class="fas fa-times fa-2x"></i></a>
+      <ul class="nav p-1">
+        {# <li><a href="{{url_for('fans')}}">Autori</a></li> #}
+        <li><a href="{{url_for('home')}}">Blog</a></li>
+        {% if current_user.is_authenticated %}
+          <li><a href="{{url_for('profile', user_id=current_user.id)}}">Môj Profil</a></li>
+          <li><a href="{{url_for('logout')}}">Odhlásiť</a></li>
+        {% else %}
+          <li><a href="{{url_for('login')}}">Prihlásiť</a></li>
+          <li><a href="{{url_for('register')}}">Zaregistrovať</a></li>
+        {% endif %}
+      </ul>
+    </nav>

@@ -1,0 +1,28 @@
+{% include "header.html" %}
+
+    <div class="container">
+      <h1 class="text-l text-primary">Authors</h1>
+      <p class="text-lead">List of authors contributing to the blog</p>
+      <div class="profiles my-1">
+      {% for user in all_users %}
+        <div class="profile p-1 bg-light">
+          <div class="small">
+            <a href="{{url_for('profile',  user_id=user.id)}}">
+              <div class="profile-img img-round highlightable">
+                <img src="{{user.profile_img}}" alt="profilepicture" onerror="this.onerror=null; this.src='{{url_for('static', filename='img/'+default_profile_img)}}'" />
+              </div>
+            </a>
+          </div>
+          <div>
+            <h2>{{user.name}}</h2>
+            <p>{{user.fav_team if user.fav_team}}</p>
+            <p>{{user.hometown if user.hometown}}</p>
+            <a class="btn btn-primary" href="{{url_for('profile', user_id=user.id)}}">Zobraziť</a>
+          </div>
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+    {% include "footer.html" %}
+  </body>
+</html>

@@ -1,0 +1,81 @@
+{% include "header.html" %}
+
+    <div class="container">
+      <div class="container-grid">
+        <!-- top -->
+        <div class="profile-wrapper">
+        {% if current_user.is_authenticated and user_id == current_user.id %}
+        <p>
+          <a id="btn-edit-profile" href="{{url_for('edit_profile', user_id=current_user.id)}}">Upraviť Profil</a>
+          |
+          <a id="btn-delete-profile" href="{{url_for('delete_profile', user_id=current_user.id)}}">Zmazať Profil</a>
+        </p>
+        {% endif %}
+          <div class="profile-top py-1">
+            <div class="medium my-1">
+              <div class="profile-img">
+                <img
+                  class="img-round"
+                  src="{{user.profile_img}}"
+                  onerror="this.onerror=null; this.src='{{url_for('static', filename='img/'+default_profile_img)}}'" alt="profile_img"
+                />
+              </div>
+            </div>
+            <h1 class="text-l">{{user['name']}}</h1>
+            <p class="text-lead">{{user['fav_team'] if user.fav_team}}</p>
+            <p>{{user.hometown if user.hometown}}</p>
+            <div class="my-1 slnks">
+              <a href="http://www.facebook.com/{{user.facebook}}">
+                <i class="fab fa-facebook fa-2x"></i>
+              </a>
+              <a href="http://www.twitter.com/{{user.twitter}}">
+                <i class="fab fa-twitter fa-2x"></i>
+              </a>
+              <a href="http://www.instagram.com/{{current_user.instagram}}">
+                <i class="fab fa-instagram fa-2x"></i>
+              </a>
+            </div>
+          </div>
+          <div class="profile-about my-1">
+            <h2 class="text-primary text-l">O mne</h2>
+            <p class="text-lead">
+              {{user['about'] if user.about}}
+            </p>
+          </div>
+          {% if current_user.is_authenticated %}
+          <h2 class="text-primary text-l my-1">Články | <a href="{{url_for('create_post')}}">Nový <i class="fas fa-edit fa-sm"></i></a></h2>
+          {% else %}
+          <h2 class="text-primary text-l my-1">Články</a></h2>
+          {% endif %}
+          <hr />
+          <!-- <div class="line"></div> -->
+          {% for post in user_posts %}
+
+          <div class="post py-1">
+            <a href="{{url_for('post', post_id=post.id, post_title=kebab(post.title))}}" class="post-thumb highlightable"
+              ><img src="{{post.title_img}}"
+            onerror="this.onerror=null; this.src='{{url_for('static', filename='img/'+default_post_img)}}'" alt="post_title_img"
+            /></a>
+            <div class="post-details">
+              <small
+                ><i class="fas fa-user"></i>
+                <a href="profile.html">{{post.author.name}}</a>
+                <i class="far fa-clock"></i> {{pretty_date(post.created_date)}}</small
+              >
+              <h2>
+                <a href="{{url_for('post', post_id=post.id, post_title=kebab(post.title))}}">{{post.title}}</a>
+              </h2>
+              <p>
+                {{post.body | safe | truncate(160)}}
+              </p>
+              <a class="btn btn-primary" href="{{url_for('post', post_id=post.id, post_title=kebab(post.title))}}">Zobraziť viac</a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% include "top-articles.html" %}
+      </div>
+    </div>
+  {% include "footer.html" %}
+  </body>
+</html>

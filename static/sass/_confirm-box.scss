@@ -1,0 +1,42 @@
+.confirm {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .5);
+    padding: 10px;
+    box-sizing: border-box;
+    z-index: 9;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    animation-name: confirm--open;
+    animation-duration: .2s;
+    animation-fill-mode: forwards;
+}
+
+.confirm-window {
+    // height: 100px;
+    // max-width: 600px;
+    padding: 30px;
+    background-color: #fff;
+    text-align: center;
+    border-radius: .5rem;
+}
+
+.confirm-close {
+    animation-name: confirm--close;
+}
+
+@keyframes confirm--open {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
+@keyframes confirm--close {
+    from {opacity: 1}
+    to {opacity: 0}
+}

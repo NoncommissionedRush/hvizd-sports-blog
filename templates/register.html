@@ -1,0 +1,28 @@
+{% include "header.html" %}
+
+    <div class="container">
+      <a class="btn btn-light my-1" href="{{url_for('home')}}">Späť</a>
+
+      <h1 class="text-xl">Registrácia</h1>
+      <h2><i class="fas fa-user"></i>Vytvoriť nový účet</h2>
+      <form class="form" action="{{url_for('register')}}" method="POST">
+        <input class="my-1" type="text" name='name' placeholder="Meno" required />
+        <input class="my-1" type="email" name='email' placeholder="Email" required />
+        <input class="my-1" type="password" name='password' placeholder="Heslo" />
+        <input class="my-1" type="password" name='confirm-password' placeholder="Potvrď Heslo" />
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <p class="alert alert-danger my-1">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <button class="btn btn-primary btn-lg" type="submit">Odoslať</button>
+        <p class="my-1">Už máš účet? <a href="{{url_for('login')}}">Prihlás sa</a></p>
+      </form>
+    </div>
+  </body>
+  {% include "footer.html" %}
+</html>

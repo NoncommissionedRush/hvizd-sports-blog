@@ -1,0 +1,18 @@
+<div class="sticky">
+    <h2>Populárne články</h2>
+    <hr />
+    {% for post in top_posts %}
+    <div class="side-post my-1">
+    <a href="{{url_for('post', post_id=post.id, post_title=kebab(post.title))}}" class="side-post-thumb highlightable"
+        ><img src="{{post.title_img}}"
+            onerror="this.onerror=null; this.src='{{url_for('static', filename='img/'+default_post_img)}}'" alt="post_title_img"
+    /></a>
+    <div class="side-post-details">
+        <h2>
+        <a href="{{url_for('post', post_id=post.id, post_title=kebab(post.title))}}">{{post.title}}</a>
+        </h2>
+        <small><i class="far fa-clock"></i> {{pretty_date(post.created_date)}}</small>
+    </div>
+    </div>
+    {% endfor %}
+</div>

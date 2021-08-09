@@ -1,0 +1,34 @@
+{% include "header.html" %}
+    <div class="container">
+      <a class="btn btn-light my-1" href="{{url_for('profile', user_id=current_user.id)}}">Späť</a>
+
+      {% if is_edit %}
+
+      <h2><i class="fas fa-user"></i> Upraviť Článok</h2>
+      <form class="form" action="{{url_for('edit_post', post_id=post_to_edit.id)}}" method="POST">
+
+      {% else %}
+
+      <h2><i class="fas fa-user"></i> Napísať článok</h2>
+      <form class="form" action="{{url_for('create_post')}}" method="POST">
+
+      {% endif %}
+
+      <div class="my-1">
+        <label for="post-title">Nadpis</label>
+        <input type="text" name='post-title' value='{{post_to_edit.title if post_to_edit}}' maxlength=50 required>
+      </div>
+      
+      <div class="my-1">
+        <label for="title-img">Odkaz na titulný obrázok</label>
+        <input type="text" name='title-img' value='{{post_to_edit.title_img if post_to_edit and post_to_edit.title_img != default_post_img}}'>
+      </div>
+
+      {{ ckeditor.load() }}
+      {{ ckeditor.config(name='body') }}
+      {{ ckeditor.create(value=post_to_edit.body if post_to_edit)}}
+      <button class="btn btn-primary btn-lg my-1" type="submit" onClick="this.select();">Odoslať</button>
+      </form>
+    </div>
+  </body>
+</html>

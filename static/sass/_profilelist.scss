@@ -1,0 +1,23 @@
+// profiles list
+
+.profiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 0.5rem;
+  grid-row-gap: 0.5rem;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  line-height: 1.5;
+  gap: 1rem;
+
+  .small {
+    width: 150px;
+  }
+
+  .btn {
+    margin-top: 0.5rem;
+  }
+}
