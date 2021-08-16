@@ -59,7 +59,7 @@ def update_post(post_id, **kwargs):
 
 # ---------------------------------- GET POPULAR POSTS ---------------------------------
 def get_popular_posts():
-    return Post.query.order_by(Post.views).limit(4).all()
+    return Post.query.order_by(Post.views.desc()).limit(4).all()
 
 
 # ----------------------------------- UPLOAD IMG TO S3 ----------------------------------
