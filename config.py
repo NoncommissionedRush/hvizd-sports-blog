@@ -7,6 +7,7 @@ UPLOAD_FOLDER = './static/img'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 DEFAULT_POST_IMG = "default-post-img.jpg"
 DEFAULT_PROFILE_IMG = "default-profile-img.jpeg"
+POSTS_PER_PAGE = 10
 
 S3_BUCKET = os.environ.get("S3_BUCKET_NAME")
 S3_KEY = os.environ.get("S3_ACCESS_KEY")
@@ -20,6 +21,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.jinja_env.globals.update(default_post_img=DEFAULT_POST_IMG)
 app.jinja_env.globals.update(default_profile_img=DEFAULT_PROFILE_IMG)
+app.jinja_env.globals.update(posts_per_page=POSTS_PER_PAGE)
 
 db = SQLAlchemy(app)
 ckeditor = CKEditor(app)
