@@ -4,7 +4,7 @@
       <h1 class="text-xl text-primary">Blog</h1>
       <div class="container-grid">
         <div class="main-content">
-        {% for post in all_posts %}
+        {% for post in all_posts[start:end] %}
           <div class="post my-1 py-1">
             <a href="{{url_for('post', post_id=post.id, post_title=kebab(post.title))}}" class="post-thumb highlightable"
               ><img src="{{post.title_img}}"
@@ -26,6 +26,18 @@
             </div>
           </div>
         {% endfor %}
+        {% if all_posts|length > posts_per_page %}
+        <div class="buttons align-right">
+          {% if page == 1 %}
+            <a href="{{url_for('page', page_nr=(page + 1))}}" class="btn btn-white">Staršie</a>
+          {% else %}
+          <a href="{{url_for('page', page_nr=(page - 1))}}" class="btn btn-white">Novšie</a>
+            {% if all_posts[start:end + 1]|length == posts_per_page + 1 %}
+            <a href="{{url_for('page', page_nr=(page + 1))}}" class="btn btn-white">Staršie</a>
+            {% endif %}
+          {% endif %}
+        </div>
+        {% endif %}
         </div>
         {% include "top-articles.html" %}
       </div>
