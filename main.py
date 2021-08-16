@@ -14,7 +14,7 @@ from functions import (
     kebab,
     send_password_reset_link,
 )
-from config import app, db
+from config import app, db, POSTS_PER_PAGE
 from models import User, Post, Comment
 from sqlalchemy import desc
 
@@ -32,10 +32,19 @@ def load_user(user_id):
 # ------------------------------------ ROUTES -------------------------------------------
 @app.route("/")
 def home():
-    all_posts = Post.query.filter().order_by(desc(Post.created_date))
+    all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
     top_posts = get_popular_posts()
-    return render_template("blog.html", all_posts=all_posts, top_posts=top_posts)
+    return render_template("blog.html", all_posts=all_posts, top_posts=top_posts, start=0, end=POSTS_PER_PAGE, page=1)
 
+
+@app.route("/page/<int:page_nr>")
+def page(page_nr):
+    start = (page_nr * POSTS_PER_PAGE) - POSTS_PER_PAGE
+    end = page_nr * POSTS_PER_PAGE
+    all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
+    top_posts = get_popular_posts()
+    print(len(all_posts[start:end + 1]) == POSTS_PER_PAGE + 1)
+    return render_template("blog.html", all_posts=all_posts, top_posts=top_posts, start=start, end=end, page=page_nr)
 
 # @app.route("/fans")
 # def fans():
@@ -281,4 +290,4 @@ def delete_comment(comment_id):
     return redirect(url_for("post", post_id=comment_to_delete.post_id))
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
