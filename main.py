@@ -16,6 +16,7 @@ from functions import (
 )
 from config import app, db
 from models import User, Post, Comment
+from sqlalchemy import desc
 
 db.create_all()
 
@@ -31,7 +32,7 @@ def load_user(user_id):
 # ------------------------------------ ROUTES -------------------------------------------
 @app.route("/")
 def home():
-    all_posts = Post.query.all()
+    all_posts = Post.query.filter().order_by(desc(Post.created_date))
     top_posts = get_popular_posts()
     return render_template("blog.html", all_posts=all_posts, top_posts=top_posts)
 
@@ -278,7 +279,6 @@ def delete_comment(comment_id):
     db.session.delete(comment_to_delete)
     db.session.commit()
     return redirect(url_for("post", post_id=comment_to_delete.post_id))
-
 
 if __name__ == "__main__":
     app.run()
