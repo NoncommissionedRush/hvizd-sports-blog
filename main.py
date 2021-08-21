@@ -285,9 +285,10 @@ def add_comment(post_id):
 @login_required
 def delete_comment(comment_id):
     comment_to_delete = Comment.query.get(comment_id)
+    parent_post = Post.query.get(comment_to_delete.post_id)
     db.session.delete(comment_to_delete)
     db.session.commit()
-    return redirect(url_for("post", post_id=comment_to_delete.post_id))
+    return redirect(url_for("post", post_id=comment_to_delete.post_id, post_title=kebab(parent_post.title)))
 
 if __name__ == "__main__":
     app.run(debug=True)
