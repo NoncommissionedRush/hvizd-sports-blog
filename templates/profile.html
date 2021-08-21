@@ -11,6 +11,11 @@
           <a id="btn-delete-profile" href="{{url_for('delete_profile', user_id=current_user.id)}}">Zmazať Profil</a>
         </p>
         {% endif %}
+        {% if current_user.id == 1 and user_id != 1 %}
+        <p>
+          <a id="btn-delete-profile" class="btn btn-small btn-danger my-1" href="{{url_for('delete_profile', user_id=user_id)}}">Zmazať Profil</a>
+        </p>
+        {% endif %}
           <div class="profile-top py-1">
             <div class="medium my-1">
               <div class="profile-img">
