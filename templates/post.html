@@ -12,7 +12,7 @@
       {% endif %}
       {% if current_user.id == 1 and post.author.id != 1 %}
       <div class="my-1">
-        <a id="btn-delete-post" class="btn btn-small btn-danger" href="{{url_for('delete_post', post_id=post.id)}}">Zmazať</a>
+        <a id="btn-delete-post" class="btn btn-small btn-delete" href="{{url_for('delete_post', post_id=post.id)}}">Zmazať</a>
       </div>
       {% endif %}
       
