@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
     facebook = db.Column(db.String(250))
     twitter = db.Column(db.String(250))
     instagram = db.Column(db.String(250))
-    posts = db.relationship("Post", back_populates="author", cascade="all,delete")
+    posts = db.relationship("Post", back_populates="author", cascade="all,delete", lazy="subquery")
 
     def __repr__(self):
         return "<User %r>" % self.email
@@ -30,7 +30,7 @@ class Post(db.Model):
     body = db.Column(db.Text())
     created_date = db.Column(db.DateTime, default=datetime.datetime.now)
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    author = db.relationship("User", back_populates="posts")
+    author = db.relationship("User", back_populates="posts", lazy="subquery")
     views = db.Column(db.Integer, default=0)
     comments = db.relationship("Comment", back_populates="post", cascade="all,delete")
 
@@ -41,6 +41,6 @@ class Comment(db.Model):
     body = db.Column(db.Text())
     created_date = db.Column(db.DateTime, default=datetime.datetime.now)
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    author = db.relationship("User", backref=db.backref("comments", cascade="all,delete"))
+    author = db.relationship("User", backref=db.backref("comments", cascade="all,delete"), lazy="subquery")
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     post = db.relationship("Post", back_populates="comments")
