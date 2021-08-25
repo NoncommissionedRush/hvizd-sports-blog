@@ -34,6 +34,11 @@
       color: $dark_color;
     }
   }
+
+  &-preview {
+    max-height: 150px;
+    overflow: hidden;
+  }
 }
 
 .side-post {
