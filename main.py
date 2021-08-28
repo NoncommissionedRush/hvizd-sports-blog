@@ -34,7 +34,7 @@ def load_user(user_id):
 def home():
     all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
     top_posts = get_popular_posts()
-    return render_template("blog.html", all_posts=all_posts, top_posts=top_posts, start=0, end=POSTS_PER_PAGE, page=1)
+    return render_template("blog.html", all_posts=all_posts, top_posts=top_posts, start=0, end=POSTS_PER_PAGE, page=1, title="Hvizd | Blog")
 
 
 @app.route("/page/<int:page_nr>")
@@ -44,12 +44,12 @@ def page(page_nr):
     all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
     top_posts = get_popular_posts()
     print(len(all_posts[start:end + 1]) == POSTS_PER_PAGE + 1)
-    return render_template("blog.html", all_posts=all_posts, top_posts=top_posts, start=start, end=end, page=page_nr)
+    return render_template("blog.html", all_posts=all_posts, top_posts=top_posts, start=start, end=end, page=page_nr, title="Hvizd | Blog")
 
 # @app.route("/fans")
 # def fans():
 #     all_users = User.query.all()
-#     return render_template("fans.html", all_users=all_users)
+#     return render_template("fans.html", all_users=all_users, title="Ľudia")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -69,7 +69,7 @@ def login():
             flash("Nesprávne prihlasovacie údaje")
             return redirect(url_for("login"))
 
-    return render_template("login.html")
+    return render_template("login.html", title="Prihlásenie")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -104,7 +104,7 @@ def register():
 
             return redirect(url_for("home"))
 
-    return render_template("register.html")
+    return render_template("register.html", title="Registrácia")
 
 
 @app.route("/logout")
@@ -145,7 +145,7 @@ def password_reset(user_id, hash):
             flash("Heslá sa musia zhodovať")
             return redirect(url_for("password_reset", user_id=user_id, hash=hash))
     return render_template(
-        "password-reset.html", user_id=user_id, hash=hash, request=False
+        "password-reset.html", user_id=user_id, hash=hash, request=False, title="Obnova hesla"
     )
 
 
@@ -160,6 +160,7 @@ def profile(user_id):
         user=user,
         user_posts=user_posts,
         top_posts=top_posts,
+        title=f"{user.name}"
     )
 
 
@@ -195,7 +196,7 @@ def edit_profile(user_id):
 
     if current_user.id == user_id:
         hash = current_user.password.split("$")[-1]
-        return render_template("edit-profile.html", hash=hash)
+        return render_template("edit-profile.html", hash=hash, title="Upraviť profil")
     else:
         return redirect(url_for("home"))
 
@@ -217,7 +218,7 @@ def post(post_id, **kwargs):
     post.views += 1
     db.session.add(post)
     db.session.commit()
-    return render_template("post.html", post=post, top_posts=top_posts)
+    return render_template("post.html", post=post, top_posts=top_posts, title=f"{post.title}")
 
 
 @app.route("/create-post", methods=["GET", "POST"])
@@ -237,7 +238,7 @@ def create_post():
         return redirect(
             url_for("post", post_id=new_post.id, post_title=kebab(new_post.title))
         )
-    return render_template("create-post.html")
+    return render_template("create-post.html", title="Nový post")
 
 
 @app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
@@ -257,7 +258,7 @@ def edit_post(post_id):
                 "post", post_id=post_to_edit.id, post_title=kebab(post_to_edit.title)
             )
         )
-    return render_template("create-post.html", is_edit=True, post_to_edit=post_to_edit)
+    return render_template("create-post.html", is_edit=True, post_to_edit=post_to_edit, title="Upraviť post")
 
 
 @app.route("/delete-post/<int:post_id>")
