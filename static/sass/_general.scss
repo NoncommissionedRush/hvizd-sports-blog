@@ -24,6 +24,58 @@ body {
   line-height: 1.6;
   height: 100%;
   min-height: 100%;
+
+}
+
+html[data-theme="dark"],
+body {
+  background: $dark_color;
+  color: $light_color;
+  
+  a {
+    color: $light_color;
+  }
+
+  .text-primary {
+    color: $light_color;
+  }
+
+  .text-grey {
+    color: rgb(187, 187, 187);
+  }
+
+  .navbar {
+    background: $dark_color;
+    border: none;
+  }
+
+  hr {
+    color: #FFBD07;
+    background-color: #FFBD07;
+  }
+
+  img {
+    opacity: .8;
+  }
+
+  .fas {
+    color: $light_color;
+  }
+
+  .side-post-details small {
+    color: $light_color;
+  }
+
+  .profile-top {
+    background: #39414a;
+  }
+
+  #btn-edit-post,
+  #btn-delete-post {
+    color: $dark_color;
+  }
+
+
 }
 
 footer {
