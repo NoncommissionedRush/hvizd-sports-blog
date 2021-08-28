@@ -163,3 +163,16 @@ if (btnHamX) {
     navMenu.style.display = "none"
   })
 }
+
+
+function changeTheme() {
+  let d = new Date()
+  let hour = d.getHours()
+  
+  if (hour < 6 || hour > 19) {
+    console.log("je tma pico");
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+}
+
+changeTheme()
