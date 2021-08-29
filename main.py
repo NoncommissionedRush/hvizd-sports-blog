@@ -1,4 +1,4 @@
-from flask import request, flash, url_for, abort
+from flask import request, flash, url_for, abort, jsonify
 from flask.templating import render_template
 from flask_login.login_manager import LoginManager
 from flask_login.utils import login_required, login_user, current_user, logout_user
@@ -215,11 +215,12 @@ def post(post_id, **kwargs):
     top_posts = get_popular_posts()
     post = Post.query.get(post_id)
     # increase post view count by one
-    post.views += 1
-    db.session.add(post)
-    db.session.commit()
+    if kwargs.get('post_title') == kebab(post.title):
+        post.views += 1
+        db.session.add(post)
+        db.session.commit()
     return render_template("post.html", post=post, top_posts=top_posts, title=f"{post.title}")
-
+    
 
 @app.route("/create-post", methods=["GET", "POST"])
 @login_required
@@ -290,6 +291,39 @@ def delete_comment(comment_id):
     db.session.delete(comment_to_delete)
     db.session.commit()
     return redirect(url_for("post", post_id=comment_to_delete.post_id, post_title=kebab(parent_post.title)))
+
+
+@app.route("/getinfo")
+@login_required
+def get_admin_info():
+    if current_user.id == 1:
+        all_posts = Post.query.all()
+        all_users = User.query.all()
+        posts = []
+        users = []
+        for post in all_posts:
+            post_details = {
+                "title": post.title,
+                "author": post.author.name,
+                "views": post.views
+            }
+            posts.append(post_details)
+
+        for user in all_users:
+            user_details = {
+                "name": user.name,
+                "email": user.email
+            }
+            users.append(user_details)
+        res = {
+            'posts': posts,
+            'users': users
+        }
+
+        return res
+
+    
+
 
 if __name__ == "__main__":
     app.run(debug=True)
