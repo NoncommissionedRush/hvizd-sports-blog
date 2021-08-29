@@ -321,7 +321,8 @@ def get_admin_info():
         }
 
         return res
-
+    else:
+        return redirect("/")
     
 
 
