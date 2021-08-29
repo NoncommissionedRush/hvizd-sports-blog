@@ -28,7 +28,7 @@ body {
 }
 
 html[data-theme="dark"],
-body {
+html[data-theme="dark"] body {
   background: $dark_color;
   color: $light_color;
   

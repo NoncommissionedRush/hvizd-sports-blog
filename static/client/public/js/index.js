@@ -168,11 +168,9 @@ if (btnHamX) {
 function changeTheme() {
   let d = new Date()
   let hour = d.getHours()
-  
-  if (hour < 6 || hour > 19) {
-    console.log("je tma pico");
+  if (hour <= 6 || hour >= 19) {
     document.documentElement.setAttribute('data-theme', 'dark');
-  }
+  } 
 }
 
 changeTheme()
