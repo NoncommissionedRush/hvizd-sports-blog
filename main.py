@@ -1,4 +1,5 @@
-from flask import request, flash, url_for, abort, jsonify
+from flask import request, flash, url_for, abort
+from flask_migrate import Migrate
 from flask.templating import render_template
 from flask_login.login_manager import LoginManager
 from flask_login.utils import login_required, login_user, current_user, logout_user
@@ -19,6 +20,7 @@ from models import User, Post, Comment
 from sqlalchemy import desc
 
 db.create_all()
+migrate = Migrate(app, db)
 
 # ---------------------------------- LOGIN MANAGER ------------------------------------
 login_manager = LoginManager(app)
@@ -34,7 +36,15 @@ def load_user(user_id):
 def home():
     all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
     top_posts = get_popular_posts()
-    return render_template("blog.html", all_posts=all_posts, top_posts=top_posts, start=0, end=POSTS_PER_PAGE, page=1, title="Hvizd | Blog")
+    return render_template(
+        "blog.html",
+        all_posts=all_posts,
+        top_posts=top_posts,
+        start=0,
+        end=POSTS_PER_PAGE,
+        page=1,
+        title="Hvizd | Blog",
+    )
 
 
 @app.route("/page/<int:page_nr>")
@@ -43,8 +53,17 @@ def page(page_nr):
     end = page_nr * POSTS_PER_PAGE
     all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
     top_posts = get_popular_posts()
-    print(len(all_posts[start:end + 1]) == POSTS_PER_PAGE + 1)
-    return render_template("blog.html", all_posts=all_posts, top_posts=top_posts, start=start, end=end, page=page_nr, title="Hvizd | Blog")
+    print(len(all_posts[start : end + 1]) == POSTS_PER_PAGE + 1)
+    return render_template(
+        "blog.html",
+        all_posts=all_posts,
+        top_posts=top_posts,
+        start=start,
+        end=end,
+        page=page_nr,
+        title="Hvizd | Blog",
+    )
+
 
 # @app.route("/fans")
 # def fans():
@@ -145,7 +164,11 @@ def password_reset(user_id, hash):
             flash("Heslá sa musia zhodovať")
             return redirect(url_for("password_reset", user_id=user_id, hash=hash))
     return render_template(
-        "password-reset.html", user_id=user_id, hash=hash, request=False, title="Obnova hesla"
+        "password-reset.html",
+        user_id=user_id,
+        hash=hash,
+        request=False,
+        title="Obnova hesla",
     )
 
 
@@ -160,7 +183,7 @@ def profile(user_id):
         user=user,
         user_posts=user_posts,
         top_posts=top_posts,
-        title=f"{user.name}"
+        title=f"{user.name}",
     )
 
 
@@ -215,12 +238,14 @@ def post(post_id, **kwargs):
     top_posts = get_popular_posts()
     post = Post.query.get(post_id)
     # increase post view count by one
-    if kwargs.get('post_title') == kebab(post.title):
+    if kwargs.get("post_title") == kebab(post.title):
         post.views += 1
         db.session.add(post)
         db.session.commit()
-    return render_template("post.html", post=post, top_posts=top_posts, title=f"{post.title}")
-    
+    return render_template(
+        "post.html", post=post, top_posts=top_posts, title=f"{post.title}"
+    )
+
 
 @app.route("/create-post", methods=["GET", "POST"])
 @login_required
@@ -248,9 +273,7 @@ def edit_post(post_id):
     post_to_edit = Post.query.get(post_id)
     if request.method == "POST":
         new_title = request.form["post-title"]
-        new_title_img = (
-            request.form["title-img"]
-        )
+        new_title_img = request.form["title-img"]
         new_body = request.form.get("ckeditor")
 
         update_post(post_id, title=new_title, title_img=new_title_img, body=new_body)
@@ -259,7 +282,12 @@ def edit_post(post_id):
                 "post", post_id=post_to_edit.id, post_title=kebab(post_to_edit.title)
             )
         )
-    return render_template("create-post.html", is_edit=True, post_to_edit=post_to_edit, title="Upraviť post")
+    return render_template(
+        "create-post.html",
+        is_edit=True,
+        post_to_edit=post_to_edit,
+        title="Upraviť post",
+    )
 
 
 @app.route("/delete-post/<int:post_id>")
@@ -290,7 +318,13 @@ def delete_comment(comment_id):
     parent_post = Post.query.get(comment_to_delete.post_id)
     db.session.delete(comment_to_delete)
     db.session.commit()
-    return redirect(url_for("post", post_id=comment_to_delete.post_id, post_title=kebab(parent_post.title)))
+    return redirect(
+        url_for(
+            "post",
+            post_id=comment_to_delete.post_id,
+            post_title=kebab(parent_post.title),
+        )
+    )
 
 
 @app.route("/getinfo")
@@ -305,25 +339,18 @@ def get_admin_info():
             post_details = {
                 "title": post.title,
                 "author": post.author.name,
-                "views": post.views
+                "views": post.views,
             }
             posts.append(post_details)
 
         for user in all_users:
-            user_details = {
-                "name": user.name,
-                "email": user.email
-            }
+            user_details = {"name": user.name, "email": user.email}
             users.append(user_details)
-        res = {
-            'posts': posts,
-            'users': users
-        }
+        res = {"posts": posts, "users": users}
 
         return res
     else:
         return redirect("/")
-    
 
 
 if __name__ == "__main__":
