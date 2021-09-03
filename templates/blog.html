@@ -29,11 +29,15 @@
         {% if all_posts|length > posts_per_page %}
         <div class="blog-nav-buttons">
           {% if page == 1 %}
-            <a href="{{url_for('page', page_nr=(page + 1))}}" class="btn btn-white align-right">Staršie >></a>
+            {% if tag %}
+              <a href="{{url_for('home', tag=tag, page_nr=(page + 1))}}" class="btn btn-white align-right">Staršie >></a>
+            {% else %}
+              <a href="{{url_for('home', page_nr=(page + 1))}}" class="btn btn-white align-right">Staršie >></a>
+            {% endif %}
           {% else %}
-          <a href="{{url_for('page', page_nr=(page - 1))}}" class="btn btn-white align-left"><< Novšie</a>
+          <a href="{{url_for('home', page_nr=(page - 1))}}" class="btn btn-white align-left"><< Novšie</a>
             {% if all_posts[start:end + 1]|length == posts_per_page + 1 %}
-            <a href="{{url_for('page', page_nr=(page + 1))}}" class="btn btn-white align-right">Staršie >></a>
+            <a href="{{url_for('home', page_nr=(page + 1))}}" class="btn btn-white align-right">Staršie >></a>
             {% endif %}
           {% endif %}
         </div>
