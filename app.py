@@ -32,27 +32,22 @@ def load_user(user_id):
 
 
 # ------------------------------------ ROUTES -------------------------------------------
-@app.route("/")
-def home():
-    all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
-    top_posts = get_popular_posts()
-    return render_template(
-        "blog.html",
-        all_posts=all_posts,
-        top_posts=top_posts,
-        start=0,
-        end=POSTS_PER_PAGE,
-        page=1,
-        title="Hvizd | Blog",
-    )
 
 
-@app.route("/page/<int:page_nr>")
-def page(page_nr):
+@app.route("/tag/<string:tag>", defaults={"page_nr": 1})
+@app.route("/tag/<string:tag>/page/<int:page_nr>")
+@app.route("/page/<int:page_nr>", defaults={"tag": ""})
+@app.route("/", defaults={"page_nr": 1, "tag": ""})
+def home(page_nr, tag):
     start = (page_nr * POSTS_PER_PAGE) - POSTS_PER_PAGE
     end = page_nr * POSTS_PER_PAGE
-    all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
+
+    if tag:
+        all_posts = Post.query.filter(Post.tags.contains(f"{tag}")).all()
+    else:
+        all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
     top_posts = get_popular_posts()
+
     print(len(all_posts[start : end + 1]) == POSTS_PER_PAGE + 1)
     return render_template(
         "blog.html",
@@ -62,7 +57,24 @@ def page(page_nr):
         end=end,
         page=page_nr,
         title="Hvizd | Blog",
+        tag=tag,
     )
+
+
+# @app.route("/tag/<string:tag>")
+# def tag(tag):
+#     posts = Post.query.filter(Post.tags.contains(f"{tag}")).all()
+#     top_posts = get_popular_posts()
+
+#     return render_template(
+#         "blog.html",
+#         all_posts=posts,
+#         top_posts=top_posts,
+#         start=0,
+#         end=POSTS_PER_PAGE,
+#         page=1,
+#         title=f"{tag}",
+#     )
 
 
 # @app.route("/fans")
@@ -237,13 +249,20 @@ def delete_profile(user_id):
 def post(post_id, **kwargs):
     top_posts = get_popular_posts()
     post = Post.query.get(post_id)
+
+    if post.tags:
+        tags = [tag.strip() for tag in post.tags.split(",")]
+    else:
+        tags = []
+
     # increase post view count by one
     if kwargs.get("post_title") == kebab(post.title):
         post.views += 1
         db.session.add(post)
         db.session.commit()
+
     return render_template(
-        "post.html", post=post, top_posts=top_posts, title=f"{post.title}"
+        "post.html", post=post, top_posts=top_posts, title=f"{post.title}", tags=tags
     )
 
 
@@ -253,10 +272,15 @@ def create_post():
     if request.method == "POST":
         post_title = request.form["post-title"]
         title_img = request.form["title-img"] if request.form["title-img"] else None
+        tags = request.form["post-tags"] if request.form["post-tags"] else None
         post_body = request.form.get("ckeditor")
 
         new_post = Post(
-            title=post_title, title_img=title_img, body=post_body, author=current_user
+            title=post_title,
+            title_img=title_img,
+            body=post_body,
+            author=current_user,
+            tags=tags,
         )
 
         db.session.add(new_post)
@@ -275,8 +299,15 @@ def edit_post(post_id):
         new_title = request.form["post-title"]
         new_title_img = request.form["title-img"]
         new_body = request.form.get("ckeditor")
+        new_tags = request.form["post-tags"]
 
-        update_post(post_id, title=new_title, title_img=new_title_img, body=new_body)
+        update_post(
+            post_id,
+            title=new_title,
+            title_img=new_title_img,
+            body=new_body,
+            tags=new_tags,
+        )
         return redirect(
             url_for(
                 "post", post_id=post_to_edit.id, post_title=kebab(post_to_edit.title)
