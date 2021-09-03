@@ -61,22 +61,6 @@ def home(page_nr, tag):
     )
 
 
-# @app.route("/tag/<string:tag>")
-# def tag(tag):
-#     posts = Post.query.filter(Post.tags.contains(f"{tag}")).all()
-#     top_posts = get_popular_posts()
-
-#     return render_template(
-#         "blog.html",
-#         all_posts=posts,
-#         top_posts=top_posts,
-#         start=0,
-#         end=POSTS_PER_PAGE,
-#         page=1,
-#         title=f"{tag}",
-#     )
-
-
 # @app.route("/fans")
 # def fans():
 #     all_users = User.query.all()
