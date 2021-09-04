@@ -29,11 +29,25 @@ body {
 
 html[data-theme="dark"],
 html[data-theme="dark"] body {
-  background: $dark_color;
-  color: $light_color;
+  @include set-background($dark_primary);
+  // background-image: url("https://www.transparenttextures.com/patterns/black-orchid.png");
   
   a {
-    color: $light_color;
+    color: #fff;
+
+    &:hover {
+      color: rgb(104, 103, 103);
+    }
+  }
+
+  .btn-white,
+  .btn-delete,
+  .btn-light {
+    color: $dark_primary;
+
+    &:hover {
+      color: #fff;
+    }
   }
 
   .text-primary {
@@ -45,13 +59,13 @@ html[data-theme="dark"] body {
   }
 
   .navbar {
-    background: $dark_color;
+    background: $dark_primary;
     border: none;
   }
 
   hr {
-    color: #FFBD07;
-    background-color: #FFBD07;
+    color: $dark_secondary;
+    background-color: $dark_secondary;
   }
 
   img {
@@ -68,13 +82,8 @@ html[data-theme="dark"] body {
 
   .profile-top {
     background: #39414a;
+    background-image: url("https://www.transparenttextures.com/patterns/black-orchid.png");
   }
-
-  #btn-edit-post,
-  #btn-delete-post {
-    color: $dark_color;
-  }
-
 
 }
 

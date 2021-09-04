@@ -3,7 +3,8 @@
 $primary_color: #013369;
 $secondary_color: #d50a0a;
 $light_color: #ecf0f1;
-$dark_color: #070f18;
+$dark_primary: #0f1e30;
+$dark_secondary: #FFBD07;
 $success_color: #27ae60;
 $danger_color: #e67e22;
 $delete_color: #d50a0a;
@@ -32,7 +33,7 @@ $max-width: 1200px;
   @if (lightness($color) > 60) {
     @return #333;
   } @else {
-    @return #fff;
+    @return rgb(230, 230, 230);
   }
 }
 

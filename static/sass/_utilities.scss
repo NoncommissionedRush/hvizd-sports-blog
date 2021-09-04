@@ -11,7 +11,7 @@
     border: #ccc 1px solid;
   }
   &-dark {
-    @include set-background($dark_color);
+    @include set-background($dark_primary);
   }
   &-success {
     @include set-background($success_color);
@@ -94,9 +94,9 @@
     }
   }
   &-dark {
-    @include set-background($dark_color);
+    @include set-background($dark_primary);
     &:hover {
-      background: lighten($dark_color, 7%);
+      background: lighten($dark_primary, 7%);
     }
   }
 
@@ -125,7 +125,7 @@
     border-radius: 4px;
 
     &:hover {
-      background: $light_color;
+      background: darken(#fff, 10%);
     }
   }
 
@@ -172,6 +172,6 @@
     @include set-background($secondary_color);
   }
   &-dark {
-    @include set-background($dark_color);
+    @include set-background($dark_primary);
   }
 }
