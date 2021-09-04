@@ -30,7 +30,6 @@ class Post(db.Model):
     title = db.Column(db.String(50), nullable=False)
     title_img = db.Column(db.String(250))
     body = db.Column(db.Text())
-    tags = db.Column(db.String(250))
     created_date = db.Column(db.DateTime, default=datetime.datetime.now)
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     author = db.relationship("User", back_populates="posts", lazy="subquery")
