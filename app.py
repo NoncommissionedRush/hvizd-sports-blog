@@ -42,10 +42,7 @@ def home(page_nr, tag):
     start = (page_nr * POSTS_PER_PAGE) - POSTS_PER_PAGE
     end = page_nr * POSTS_PER_PAGE
 
-    if tag:
-        all_posts = Post.query.filter(Post.tags.contains(f"{tag}")).all()
-    else:
-        all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
+    all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
     top_posts = get_popular_posts()
 
     print(len(all_posts[start : end + 1]) == POSTS_PER_PAGE + 1)
@@ -57,7 +54,6 @@ def home(page_nr, tag):
         end=end,
         page=page_nr,
         title="Hvizd | Blog",
-        tag=tag,
     )
 
 
@@ -234,11 +230,6 @@ def post(post_id, **kwargs):
     top_posts = get_popular_posts()
     post = Post.query.get(post_id)
 
-    if post.tags:
-        tags = [tag.strip() for tag in post.tags.split(",")]
-    else:
-        tags = []
-
     # increase post view count by one
     if kwargs.get("post_title") == kebab(post.title):
         post.views += 1
@@ -246,7 +237,7 @@ def post(post_id, **kwargs):
         db.session.commit()
 
     return render_template(
-        "post.html", post=post, top_posts=top_posts, title=f"{post.title}", tags=tags
+        "post.html", post=post, top_posts=top_posts, title=f"{post.title}"
     )
 
 
@@ -256,7 +247,6 @@ def create_post():
     if request.method == "POST":
         post_title = request.form["post-title"]
         title_img = request.form["title-img"] if request.form["title-img"] else None
-        tags = request.form["post-tags"] if request.form["post-tags"] else None
         post_body = request.form.get("ckeditor")
 
         new_post = Post(
@@ -264,7 +254,6 @@ def create_post():
             title_img=title_img,
             body=post_body,
             author=current_user,
-            tags=tags,
         )
 
         db.session.add(new_post)
@@ -283,14 +272,12 @@ def edit_post(post_id):
         new_title = request.form["post-title"]
         new_title_img = request.form["title-img"]
         new_body = request.form.get("ckeditor")
-        new_tags = request.form["post-tags"]
 
         update_post(
             post_id,
             title=new_title,
             title_img=new_title_img,
             body=new_body,
-            tags=new_tags,
         )
         return redirect(
             url_for(
