@@ -1,6 +1,17 @@
 from flask_login import UserMixin
+from sqlalchemy.ext.declarative import declarative_base
 from config import db
 import datetime
+
+Base = declarative_base()
+
+PostTags = db.Table(
+    "PostTags",
+    Base.metadata,
+    db.Column("id", db.Integer, primary_key=True),
+    db.Column("post_id", db.ForeignKey("posts.id")),
+    db.Column("tag_id", db.ForeignKey("tags.id")),
+)
 
 
 class User(UserMixin, db.Model):
@@ -30,12 +41,12 @@ class Post(db.Model):
     title = db.Column(db.String(50), nullable=False)
     title_img = db.Column(db.String(250))
     body = db.Column(db.Text())
-    tags = db.Column(db.String(250))
     created_date = db.Column(db.DateTime, default=datetime.datetime.now)
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     author = db.relationship("User", back_populates="posts", lazy="subquery")
     views = db.Column(db.Integer, default=0)
     comments = db.relationship("Comment", back_populates="post", cascade="all,delete")
+    tags = db.relationship("Tag", secondary=PostTags, back_populates="posts")
 
 
 class Comment(db.Model):
@@ -49,3 +60,10 @@ class Comment(db.Model):
     )
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     post = db.relationship("Post", back_populates="comments")
+
+
+class Tag(db.Model):
+    __tablename__ = "tags"
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(250))
+    posts = db.relationship("Post", secondary=PostTags, back_populates="tags")
