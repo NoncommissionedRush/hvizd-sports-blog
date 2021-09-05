@@ -24,6 +24,11 @@
         <input type="text" name='title-img' value='{{post_to_edit.title_img if post_to_edit and post_to_edit.title_img != default_post_img}}'>
       </div>
 
+      <div class="my-1">
+        <label for="post-tags">Tags</label>
+        <input type="text" name="post-tags" value="{{tags_string if tags_string}}">
+      </div>
+
       {{ ckeditor.load() }}
       {{ ckeditor.config(name='body') }}
       {{ ckeditor.create(value=post_to_edit.body if post_to_edit)}}
