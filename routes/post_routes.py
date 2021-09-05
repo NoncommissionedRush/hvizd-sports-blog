@@ -101,6 +101,7 @@ def edit_post(post_id):
 @login_required
 def delete_post(post_id):
     post_to_delete = Post.query.get(post_id)
+    post_to_delete.tags = []
     db.session.delete(post_to_delete)
     db.session.commit()
     return redirect(url_for("profile_routes.profile", user_id=post_to_delete.author.id))

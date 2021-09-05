@@ -1,5 +1,3 @@
-from flask import request
-from flask_migrate import Migrate
 from flask.templating import render_template
 from flask_login.login_manager import LoginManager
 from flask_login.utils import login_required, current_user
