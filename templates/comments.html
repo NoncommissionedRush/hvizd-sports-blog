@@ -1,6 +1,6 @@
 <h2>Komentáre</h2>
 {% if current_user.is_authenticated %}
-<form class="form my-1" action="{{url_for('add_comment', post_id=post.id)}}" method="POST">
+<form class="form my-1" action="{{url_for('comment_routes.add_comment', post_id=post.id)}}" method="POST">
 <textarea name="comment" placeholder="Pridať komentár..." rows="5" required></textarea>
 
 <button class="btn btn-success btn-md" type="submit">
@@ -9,7 +9,7 @@
 </form>
 {% else %}
 <hr />
-<p class="my-1">Ak chceš pridať komentár <a href="{{url_for('login')}}">prihlás sa.</a></p>
+<p class="my-1">Ak chceš pridať komentár <a href="{{url_for('login_routes.login')}}">prihlás sa.</a></p>
 {% endif %}
 <div class="comment-thread">
 {% for comment in post.comments %}
@@ -17,7 +17,7 @@
 
     <div class="comment-heading">
     <div class="comment-info">
-        <a class="comment-author" href="{{url_for('profile', user_id=comment.author.id)}}"
+        <a class="comment-author" href="{{url_for('profile_routes.profile', user_id=comment.author.id)}}"
         >{{comment.author.name}}</a
         >
         <p>{{pretty_date(comment.created_date)}}</p>
@@ -32,10 +32,10 @@
         <a href="#" class="btn btn-small btn-white">Nahlásiť</a>
         {% endif %}
         {% if current_user.id == comment.author.id %}
-        <a id="btn-delete-comment" href="{{url_for('delete_comment', comment_id=comment.id)}}" class="btn btn-small btn-delete">Zmazať</a>
+        <a id="btn-delete-comment" href="{{url_for('comment_routes.delete_comment', comment_id=comment.id)}}" class="btn btn-small btn-delete">Zmazať</a>
         {% endif %}
         {% if current_user.id == 1 and comment.author.id != 1 %}
-        <a id="btn-delete-comment" href="{{url_for('delete_comment', comment_id=comment.id)}}" class="btn btn-small btn-delete">Zmazať</a>
+        <a id="btn-delete-comment" href="{{url_for('comment_routes.delete_comment', comment_id=comment.id)}}" class="btn btn-small btn-delete">Zmazať</a>
         {% endif %}
     </div>
     </div>

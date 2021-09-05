@@ -1,16 +1,16 @@
 {% include "header.html" %}
     <div class="container">
-      <a class="btn btn-light my-1" href="{{url_for('profile', user_id=current_user.id)}}">Späť</a>
+      <a class="btn btn-light my-1" href="{{url_for('profile_routes.profile', user_id=current_user.id)}}">Späť</a>
 
       {% if is_edit %}
 
       <h2><i class="fas fa-user"></i> Upraviť Článok</h2>
-      <form class="form" action="{{url_for('edit_post', post_id=post_to_edit.id)}}" method="POST">
+      <form class="form" action="{{url_for('post_routes.edit_post', post_id=post_to_edit.id)}}" method="POST">
 
       {% else %}
 
       <h2><i class="fas fa-user"></i> Napísať článok</h2>
-      <form class="form" action="{{url_for('create_post')}}" method="POST">
+      <form class="form" action="{{url_for('post_routes.create_post')}}" method="POST">
 
       {% endif %}
 

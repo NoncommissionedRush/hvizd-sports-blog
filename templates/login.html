@@ -12,12 +12,12 @@
 
       <h1 class="text-xl">Prihlásenie</h1>
       <h2><i class="fas fa-user"></i>Prihlásiť do existujúceho účtu</h2>
-      <form class="form" action="{{url_for('login')}}" method="POST">
+      <form class="form" action="{{url_for('login_routes.login')}}" method="POST">
         <input class='my-1' name='email' type="email" placeholder="Email" required />
         <input class='my-1' name='password' type="password" placeholder="Heslo" />
         <button class="btn btn-primary btn-lg" type="submit">Odoslať</button>
         <p class="my-1">
-          Nemáš účet? <a href="{{url_for('register')}}">Zaregistruj sa</a> | <a href="{{url_for('password_reset_request')}}">Zabudol som heslo</a>
+          Nemáš účet? <a href="{{url_for('login_routes.register')}}">Zaregistruj sa</a> | <a href="{{url_for('login_routes.password_reset_request')}}">Zabudol som heslo</a>
         </p>
       </form>
     </div>
