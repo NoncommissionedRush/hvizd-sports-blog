@@ -5,13 +5,22 @@ from urllib.parse import urljoin, urlparse
 from flask import request
 from flask_login import current_user
 from unidecode import unidecode
-from models import User, Post
-from config import ALLOWED_EXTENSIONS, db, app, S3_SECRET, S3_KEY, S3_SECRET, S3_LOCATION, S3_BUCKET
+from models import Tag, User, Post
+from config import (
+    ALLOWED_EXTENSIONS,
+    db,
+    app,
+    S3_SECRET,
+    S3_KEY,
+    S3_SECRET,
+    S3_LOCATION,
+    S3_BUCKET,
+)
 import boto3
 
 # ---------------------------------- ALLOWED FILES  ------------------------------------
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 # ---------------------------------- SAFE URL ---------------------------------------
@@ -44,15 +53,26 @@ def update_user(user_id, **kwargs):
     db.session.add(user_to_update)
     db.session.commit()
 
+
 # ---------------------------------- UPDATE POST -------------------------------------
-def update_post(post_id, **kwargs):
+def update_post(post_id, tags, **kwargs):
 
     post_to_update = Post.query.get(post_id)
+
+    if tags:
+        tags = [tag.strip() for tag in tags.split(",")]
+        for tag in tags:
+            existing_tag = Tag.query.filter_by(text=tag).first()
+            if existing_tag:
+                post_to_update.tags.append(existing_tag)
+            else:
+                new_tag = Tag(text=tag)
+                post_to_update.tags.append(new_tag)
 
     for attr, value in kwargs.items():
         if value:
             setattr(post_to_update, attr, value)
-    
+
     db.session.add(post_to_update)
     db.session.commit()
 
@@ -64,11 +84,7 @@ def get_popular_posts():
 
 # ----------------------------------- UPLOAD IMG TO S3 ----------------------------------
 def upload_to_s3(file, profile_img, acl="public-read"):
-    s3 = boto3.client(
-    "s3",
-    aws_access_key_id=S3_KEY,
-    aws_secret_access_key=S3_SECRET
-    )
+    s3 = boto3.client("s3", aws_access_key_id=S3_KEY, aws_secret_access_key=S3_SECRET)
 
     if file and allowed_file(file.filename):
         print("here we are in upload_to_s3 and there is a file and it is allowed")
@@ -85,10 +101,7 @@ def upload_to_s3(file, profile_img, acl="public-read"):
                 file,
                 S3_BUCKET,
                 new_filename,
-                ExtraArgs={
-                    "ACL": acl,
-                    "ContentType": file.content_type
-                }
+                ExtraArgs={"ACL": acl, "ContentType": file.content_type},
             )
             print("uploaded to S3 successfully")
         except Exception as e:
@@ -100,13 +113,18 @@ def upload_to_s3(file, profile_img, acl="public-read"):
         print("something was not right so the profile_img should have stayed the same")
         return profile_img
 
+
 # ---------------------------------- STR TO KEBAB CASE ----------------------------------
 def kebab(str):
-    str = re.sub("[^a-zA-Z0-9\s:-]", '', str)
+    str = re.sub("[^a-zA-Z0-9\s:-]", "", str)
     str = unidecode(str).lower()
-    x = re.findall("(?:\d+)|(?:[a-zA-Z]+(?=\d))|(?:[a-zA-Z0-9]+(?=[A-Z]))|(?:[a-zA-Z0-9]+(?=\-))|(?:[a-zA-Z0-9]+(?=\s))|[a-zA-Z0-9]+$", str)
+    x = re.findall(
+        "(?:\d+)|(?:[a-zA-Z]+(?=\d))|(?:[a-zA-Z0-9]+(?=[A-Z]))|(?:[a-zA-Z0-9]+(?=\-))|(?:[a-zA-Z0-9]+(?=\s))|[a-zA-Z0-9]+$",
+        str,
+    )
     x = "-".join(x)
     return x
+
 
 # makes the function accessible in the templates
 app.jinja_env.globals.update(kebab=kebab)
@@ -121,7 +139,7 @@ def send_password_reset_link(user):
     SERVER = os.environ.get("MAILGUN_SMTP_SERVER")
     PORT = os.environ.get("MAILGUN_SMTP_PORT")
 
-    with smtplib.SMTP(SERVER,PORT) as connection:
+    with smtplib.SMTP(SERVER, PORT) as connection:
         connection.ehlo()
         connection.starttls()
         connection.ehlo()
@@ -130,15 +148,15 @@ def send_password_reset_link(user):
             connection.sendmail(
                 from_addr=my_email,
                 to_addrs=user.email,
-                msg=f"Subject:HVIZD Resetovanie hesla!\n\nPre zresetovanie hesla na hvizd.sk kliknite na tento link\nhttps://hvizd-blog.sk/password-reset/{user.id}/{hash}"
+                msg=f"Subject:HVIZD Resetovanie hesla!\n\nPre zresetovanie hesla na hvizd.sk kliknite na tento link\nhttps://hvizd-blog.sk/password-reset/{user.id}/{hash}",
             )
         except Exception as e:
             print(e)
             return
 
 
-
 # --------------------------------------- PRETTY DATE -------------------------------------------
+
 
 def pretty_date(time=False):
     """
@@ -147,15 +165,16 @@ def pretty_date(time=False):
     'just now', etc
     """
     from datetime import datetime
+
     now = datetime.now()
-    
+
     diff = now - time
 
     second_diff = diff.seconds
     day_diff = diff.days
 
     if day_diff < 0:
-        return ''
+        return ""
 
     if day_diff == 0:
         if second_diff < 10:
