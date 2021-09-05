@@ -16,7 +16,7 @@ from functions import (
     send_password_reset_link,
 )
 from config import app, db, POSTS_PER_PAGE
-from models import User, Post, Comment
+from models import User, Post, Comment, Tag
 from sqlalchemy import desc
 
 db.create_all()
@@ -248,6 +248,7 @@ def create_post():
         post_title = request.form["post-title"]
         title_img = request.form["title-img"] if request.form["title-img"] else None
         post_body = request.form.get("ckeditor")
+        post_tags = request.form.get("post-tags")
 
         new_post = Post(
             title=post_title,
@@ -255,6 +256,15 @@ def create_post():
             body=post_body,
             author=current_user,
         )
+
+        for tag in post_tags.split(","):
+            existing_tag = Tag.query.filter_by(text=tag).first()
+
+            if existing_tag:
+                new_post.tags.append(existing_tag)
+            elif tag != "":
+                new_tag = Tag(text=tag)
+                new_post.tags.append(new_tag)
 
         db.session.add(new_post)
         db.session.commit()
@@ -268,17 +278,23 @@ def create_post():
 @login_required
 def edit_post(post_id):
     post_to_edit = Post.query.get(post_id)
+    tags_list = [tag.text for tag in post_to_edit.tags]
+    tags_string = ", ".join(tags_list)
+
     if request.method == "POST":
         new_title = request.form["post-title"]
         new_title_img = request.form["title-img"]
         new_body = request.form.get("ckeditor")
+        new_tags = request.form["post-tags"]
 
         update_post(
             post_id,
+            tags=new_tags,
             title=new_title,
             title_img=new_title_img,
             body=new_body,
         )
+
         return redirect(
             url_for(
                 "post", post_id=post_to_edit.id, post_title=kebab(post_to_edit.title)
@@ -288,6 +304,7 @@ def edit_post(post_id):
         "create-post.html",
         is_edit=True,
         post_to_edit=post_to_edit,
+        tags_string=tags_string,
         title="Upraviť post",
     )
 
