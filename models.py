@@ -2,6 +2,13 @@ from flask_login import UserMixin
 from config import db
 import datetime
 
+post_tags_association = db.Table(
+    "post_tags_association",
+    db.Model.metadata,
+    db.Column("post_id", db.Integer, db.ForeignKey("posts.id")),
+    db.Column("tag_id", db.Integer, db.ForeignKey("tags.id")),
+)
+
 
 class User(UserMixin, db.Model):
     __tablename__ = "users"
@@ -35,6 +42,7 @@ class Post(db.Model):
     author = db.relationship("User", back_populates="posts", lazy="subquery")
     views = db.Column(db.Integer, default=0)
     comments = db.relationship("Comment", back_populates="post", cascade="all,delete")
+    tags = db.relationship("Tag", secondary=post_tags_association)
 
 
 class Comment(db.Model):
@@ -48,3 +56,9 @@ class Comment(db.Model):
     )
     post_id = db.Column(db.Integer, db.ForeignKey("posts.id"))
     post = db.relationship("Post", back_populates="comments")
+
+
+class Tag(db.Model):
+    __tablename__ = "tags"
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(250))
