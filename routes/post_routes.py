@@ -40,13 +40,14 @@ def create_post():
         )
 
         for tag in post_tags.split(","):
-            existing_tag = Tag.query.filter_by(text=tag).first()
+            tag = tag.strip()
+            existing_tag = Tag.query.filter_by(name=tag).first()
 
             if existing_tag:
-                new_post.tags.append(existing_tag)
+                new_post.tags.extend([existing_tag])
             elif tag != "":
-                new_tag = Tag(text=tag)
-                new_post.tags.append(new_tag)
+                new_tag = Tag(name=tag)
+                new_post.tags.extend([new_tag])
 
         db.session.add(new_post)
         db.session.commit()
@@ -101,7 +102,8 @@ def edit_post(post_id):
 @login_required
 def delete_post(post_id):
     post_to_delete = Post.query.get(post_id)
-    post_to_delete.tags = []
+    for tag in post_to_delete.tags:
+        post_to_delete.tags.remove(tag)
     db.session.delete(post_to_delete)
     db.session.commit()
     return redirect(url_for("profile_routes.profile", user_id=post_to_delete.author.id))

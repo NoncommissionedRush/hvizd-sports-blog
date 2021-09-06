@@ -62,12 +62,12 @@ def update_post(post_id, tags, **kwargs):
     if tags:
         tags = [tag.strip() for tag in tags.split(",")]
         for tag in tags:
-            existing_tag = Tag.query.filter_by(text=tag).first()
+            existing_tag = Tag.query.filter_by(name=tag).first()
             if existing_tag:
-                post_to_update.tags.append(existing_tag)
+                post_to_update.tags.extend([existing_tag])
             else:
-                new_tag = Tag(text=tag)
-                post_to_update.tags.append(new_tag)
+                new_tag = Tag(name=tag)
+                post_to_update.tags.extend([new_tag])
 
     for attr, value in kwargs.items():
         if value:
