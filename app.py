@@ -6,7 +6,7 @@ from functions import (
     get_popular_posts,
 )
 from config import app, db, POSTS_PER_PAGE
-from models import User, Post
+from models import Tag, User, Post
 from sqlalchemy import desc
 
 db.create_all()
@@ -31,14 +31,19 @@ def home(page_nr, tag):
     start = (page_nr * POSTS_PER_PAGE) - POSTS_PER_PAGE
     end = page_nr * POSTS_PER_PAGE
 
-    all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
-    top_posts = get_popular_posts()
+    if tag:
+        all_posts = Post.query.filter(Post.tags.any(name=tag)).all()
+    else:
+        all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
 
-    print(len(all_posts[start : end + 1]) == POSTS_PER_PAGE + 1)
+    top_posts = get_popular_posts()
+    all_tags = Tag.query.all()
+
     return render_template(
         "blog.html",
         all_posts=all_posts,
         top_posts=top_posts,
+        all_tags=all_tags,
         start=start,
         end=end,
         page=page_nr,

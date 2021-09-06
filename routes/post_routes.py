@@ -10,6 +10,7 @@ post_routes = Blueprint("post_routes", __name__)
 @post_routes.route("/post/<int:post_id>/<post_title>")
 def post(post_id, **kwargs):
     top_posts = get_popular_posts()
+    all_tags = Tag.query.all()
     post = Post.query.get(post_id)
 
     # increase post view count by one
@@ -19,7 +20,11 @@ def post(post_id, **kwargs):
         db.session.commit()
 
     return render_template(
-        "post.html", post=post, top_posts=top_posts, title=f"{post.title}"
+        "post.html",
+        post=post,
+        top_posts=top_posts,
+        all_tags=all_tags,
+        title=f"{post.title}",
     )
 
 
@@ -65,7 +70,7 @@ def create_post():
 @login_required
 def edit_post(post_id):
     post_to_edit = Post.query.get(post_id)
-    tags_list = [tag.text for tag in post_to_edit.tags]
+    tags_list = [tag.name for tag in post_to_edit.tags]
     tags_string = ", ".join(tags_list)
 
     if request.method == "POST":

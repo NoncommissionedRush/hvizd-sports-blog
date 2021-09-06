@@ -1,7 +1,7 @@
 from flask import request, redirect, url_for, render_template, Blueprint
 from flask_login.utils import login_required, current_user
 from config import db
-from models import Post, User
+from models import Post, Tag, User
 from functions import get_popular_posts, upload_to_s3, update_user
 
 profile_routes = Blueprint("profile_routes", __name__)
@@ -12,12 +12,14 @@ def profile(user_id):
     user = User.query.get(user_id)
     user_posts = Post.query.filter_by(author_id=user_id)
     top_posts = get_popular_posts()
+    all_tags = Tag.query.all()
     return render_template(
         "profile.html",
         user_id=user_id,
         user=user,
         user_posts=user_posts,
         top_posts=top_posts,
+        all_tags=all_tags,
         title=f"{user.name}",
     )
 

@@ -15,4 +15,14 @@
     </div>
     </div>
     {% endfor %}
+
+    <h2>Značky</h2>
+    <hr>
+    <div class="tags my-1">
+    {% for tag in all_tags %}
+        <a href="{{url_for('home', tag=tag.name)}}" class="btn btn-light btn-small">{{tag.name}}</a>
+    {% endfor %}    
+    </div>
+        
+
 </div>
