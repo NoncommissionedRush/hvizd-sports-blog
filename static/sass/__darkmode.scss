@@ -1,0 +1,60 @@
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+  @include set-background($dark_primary);
+  // background-image: url("https://www.transparenttextures.com/patterns/black-orchid.png");
+  
+  a {
+    color: #fff;
+
+    &:hover {
+      color: rgb(104, 103, 103);
+    }
+  }
+
+  .btn-white,
+  .btn-delete,
+  .btn-light {
+    color: $dark_primary;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+
+  .text-primary {
+    color: $light_color;
+  }
+
+  .text-grey {
+    color: rgb(187, 187, 187);
+  }
+
+  .navbar {
+    background: $dark_primary;
+    border: none;
+  }
+
+  hr {
+    color: $dark_secondary;
+    background-color: $dark_secondary;
+  }
+
+  img {
+    opacity: .8;
+  }
+
+  .fas {
+    color: $light_color;
+  }
+
+  .side-post-details small {
+    color: $light_color;
+  }
+
+  .profile-top {
+    background: #39414a;
+    background-image: url("https://www.transparenttextures.com/patterns/black-orchid.png");
+  }
+
+}
+
