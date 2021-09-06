@@ -9,7 +9,7 @@ from config import app, db, POSTS_PER_PAGE
 from models import Tag, User, Post
 from sqlalchemy import desc
 
-db.create_all()
+# db.create_all()
 
 # ---------------------------------- LOGIN MANAGER ------------------------------------
 login_manager = LoginManager(app)
