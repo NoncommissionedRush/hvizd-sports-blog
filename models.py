@@ -53,7 +53,9 @@ class Post(db.Model):
     author = db.relationship("User", back_populates="posts", lazy="subquery")
     views = db.Column(db.Integer, default=0)
     comments = db.relationship("Comment", back_populates="post", cascade="all,delete")
-    tags = db.relationship("Tag", secondary=post_tags_association, backref="posts")
+    tags = db.relationship(
+        "Tag", secondary=post_tags_association, backref="posts", lazy="dynamic"
+    )
 
 
 class Comment(db.Model):

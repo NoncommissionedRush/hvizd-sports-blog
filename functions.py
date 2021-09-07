@@ -20,6 +20,7 @@ import boto3
 
 # ---------------------------------- ALLOWED FILES  ------------------------------------
 def allowed_file(filename):
+    """returns true if the filename extension is in ALLOWED EXTENSIONS list"""
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
@@ -42,6 +43,18 @@ def validate(email, password, confirm_password):
         return True
 
 
+# ------------====---------------- CHECK TAG ORPHANS --------------------------------
+def delete_orphan_tag(tag):
+    """checks if a tag has no parent and deletes it from database"""
+    if len(tag.posts) == 0:
+        print(f"deleting {tag} from database")
+        db.session.delete(tag)
+        db.session.commit()
+        return True
+    else:
+        return False
+
+
 # ---------------------------------- UPDATE USER ------------------------------------
 def update_user(user_id, **kwargs):
 
@@ -50,40 +63,53 @@ def update_user(user_id, **kwargs):
     for attr, value in kwargs.items():
         setattr(user_to_update, attr, value)
 
-    db.session.add(user_to_update)
     db.session.commit()
 
 
 # ---------------------------------- UPDATE POST -------------------------------------
 def update_post(post_id, tags, **kwargs):
-
     post_to_update = Post.query.get(post_id)
+    old_tags = [tag.name for tag in post_to_update.tags]
 
     if tags:
-        tags = [tag.strip() for tag in tags.split(",")]
-        for tag in tags:
+        new_tags = [tag.strip() for tag in tags.split(",")]
+
+        for tag in post_to_update.tags:
+            if not tag.name in new_tags:
+                post_to_update.tags.remove(tag)
+                delete_orphan_tag(tag)
+
+        for tag in new_tags:
             existing_tag = Tag.query.filter_by(name=tag).first()
-            if existing_tag:
+            if existing_tag and tag in old_tags:
+                pass
+            elif existing_tag:
                 post_to_update.tags.extend([existing_tag])
             else:
                 new_tag = Tag(name=tag)
                 post_to_update.tags.extend([new_tag])
 
+    elif old_tags and not tags:
+        for tag in post_to_update.tags:
+            post_to_update.tags.remove(tag)
+            delete_orphan_tag(tag)
+
     for attr, value in kwargs.items():
         if value:
             setattr(post_to_update, attr, value)
 
-    db.session.add(post_to_update)
     db.session.commit()
 
 
 # ---------------------------------- GET POPULAR POSTS ---------------------------------
 def get_popular_posts():
+    """returns four posts with the most views"""
     return Post.query.order_by(Post.views.desc()).limit(4).all()
 
 
 # ----------------------------------- UPLOAD IMG TO S3 ----------------------------------
 def upload_to_s3(file, profile_img, acl="public-read"):
+    """uploads the file to the AWS S3 bucket"""
     s3 = boto3.client("s3", aws_access_key_id=S3_KEY, aws_secret_access_key=S3_SECRET)
 
     if file and allowed_file(file.filename):
@@ -116,6 +142,7 @@ def upload_to_s3(file, profile_img, acl="public-read"):
 
 # ---------------------------------- STR TO KEBAB CASE ----------------------------------
 def kebab(str):
+    """changes string to kebab case"""
     str = re.sub("[^a-zA-Z0-9\s:-]", "", str)
     str = unidecode(str).lower()
     x = re.findall(
