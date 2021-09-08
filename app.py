@@ -1,3 +1,4 @@
+from flask import request
 from flask.templating import render_template
 from flask_login.login_manager import LoginManager
 from flask_login.utils import login_required, current_user
@@ -7,7 +8,7 @@ from functions import (
 )
 from config import app, db, POSTS_PER_PAGE
 from models import Tag, User, Post
-from sqlalchemy import desc
+from sqlalchemy import desc, or_
 
 # db.create_all()
 
@@ -23,6 +24,7 @@ def load_user(user_id):
 # ------------------------------------ ROUTES -------------------------------------------
 
 
+@app.route("/search", defaults={"page_nr": 1, "tag": ""}, methods=["GET", "POST"])
 @app.route("/tag/<string:tag>", defaults={"page_nr": 1})
 @app.route("/tag/<string:tag>/page/<int:page_nr>")
 @app.route("/page/<int:page_nr>", defaults={"tag": ""})
@@ -32,12 +34,30 @@ def home(page_nr, tag):
     end = page_nr * POSTS_PER_PAGE
 
     if tag:
-        all_posts = Post.query.filter(Post.tags.any(name=tag)).all()
+        all_posts = (
+            Post.query.filter(Post.tags.any(name=tag))
+            .order_by(desc(Post.created_date))
+            .all()
+        )
     else:
         all_posts = Post.query.filter().order_by(desc(Post.created_date)).all()
 
     top_posts = get_popular_posts()
     all_tags = Tag.query.all()
+
+    if request.method == "POST":
+        search_string = request.form["search-string"]
+        all_posts = (
+            Post.query.filter(
+                or_(
+                    Post.title.contains(search_string),
+                    Post.body.contains(search_string),
+                    Post.tags.any(name=search_string),
+                )
+            )
+            .order_by(desc(Post.created_date))
+            .all()
+        )
 
     return render_template(
         "blog.html",
