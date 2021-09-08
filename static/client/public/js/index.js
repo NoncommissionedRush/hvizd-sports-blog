@@ -174,7 +174,7 @@ searchIcon.addEventListener("click", (e) => {
 function changeTheme() {
   let d = new Date();
   let hour = d.getHours();
-  if (hour <= 6 || hour >= 24) {
+  if (hour <= 6 || hour >= 19) {
     document.documentElement.setAttribute("data-theme", "dark");
   }
 }
