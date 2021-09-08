@@ -88,9 +88,9 @@
   }
 }
 
-
 @media (max-width: 750px) {
-  .post {
+
+    .post {
     display: flex;
     flex-direction: column;
 
@@ -112,17 +112,39 @@
   }
 
   .nav {
+    flex-direction: column;
     position: fixed;
     top: 0;
     display: none;
     background: $primary-color;
-    text-align: center;
     width: 100%;
-
+    height: auto;
+    align-items: flex-start;
+    animation-name: fade--in;
+    animation-duration: .2s;
+    animation-fill-mode: forwards;
     li {
-      padding: .5rem 0;
+      padding: .5rem 1rem;
     }
   }
+
+  #search-icon {
+    display: none;
+  }
+
+  #search-bar {
+    display: inline-block;
+  }
+
+  .side-post-thumb {
+    min-width: 150px;
+  }
+  
+  @keyframes fade--in {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
 
 }
 

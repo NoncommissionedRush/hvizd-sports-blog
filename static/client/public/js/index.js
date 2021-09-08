@@ -145,7 +145,7 @@ if (btnHam) {
     btnHamX.classList.remove("hidden");
     btnHam.classList.add("hidden");
     navMenu = document.querySelector(".nav");
-    navMenu.style.display = "block";
+    navMenu.style.display = "flex";
   });
 }
 
@@ -167,13 +167,14 @@ searchBar = document.querySelector("#search-bar");
 
 searchIcon.addEventListener("click", (e) => {
   e.preventDefault();
+  searchBar.classList.toggle("slide-in");
   searchBar.classList.toggle("hidden");
 });
 
 function changeTheme() {
   let d = new Date();
   let hour = d.getHours();
-  if (hour <= 6 || hour >= 19) {
+  if (hour <= 6 || hour >= 24) {
     document.documentElement.setAttribute("data-theme", "dark");
   }
 }
