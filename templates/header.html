@@ -43,6 +43,14 @@
           <li><a href="{{url_for('login_routes.login')}}">Prihlásiť</a></li>
           <li><a href="{{url_for('login_routes.register')}}">Zaregistrovať</a></li>
         {% endif %}
+        <li id="search-bar" class="hidden">
+            <form action="/search" method="POST">
+              <input type="text" name="search-string" placeholder=" Hľadať...">
+            </form>
+        </li>
+        <li>
+          <a id="search-icon" href=""><i class="fas fa-search"></i></a>
+        </li>
       </ul>
     </nav>
 

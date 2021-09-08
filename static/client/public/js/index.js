@@ -1,8 +1,7 @@
 const Confirm = {
-
   types: {
     YESNO: "confirm",
-    OK: "ok"
+    OK: "ok",
   },
 
   open(options) {
@@ -19,8 +18,8 @@ const Confirm = {
       options
     );
 
-    if (options.type == this.types.YESNO){
-      console.log('funguje')
+    if (options.type == this.types.YESNO) {
+      console.log("funguje");
       html = `
       <div class="confirm">
         <div class="confirm-window">
@@ -40,7 +39,6 @@ const Confirm = {
       </div>
     `;
     }
-
 
     const template = document.createElement("template");
 
@@ -62,7 +60,7 @@ const Confirm = {
       this._close(confirmElement);
     });
 
-    if(btnNo){
+    if (btnNo) {
       btnNo.addEventListener("click", () => {
         options.onNo();
         this._close(confirmElement);
@@ -79,98 +77,105 @@ const Confirm = {
   },
 };
 
-btnDeletePost = document.querySelector("#btn-delete-post")
-if (btnDeletePost){
-    btnDeletePost.addEventListener("click", (e) => {
-      e.preventDefault()
-      Confirm.open({
-          type: Confirm.types.YESNO,
-          message: "Určite chcete zmazať článok?",
-          onYes: () => {
-              window.location.href = e.target.href;
-          }
-      })
-    });    
-}
-
-btnDeleteProfile = document.querySelector("#btn-delete-profile")
-if (btnDeleteProfile){
-    btnDeleteProfile.addEventListener("click", (e) => {
-      e.preventDefault();
-      Confirm.open({
-        type: Confirm.types.YESNO,
-        message: "Určite chcete zmazať svoj profil?",
-        onYes: () => {
-          window.location.href = e.target.href;
-        },
-      });
+btnDeletePost = document.querySelector("#btn-delete-post");
+if (btnDeletePost) {
+  btnDeletePost.addEventListener("click", (e) => {
+    e.preventDefault();
+    Confirm.open({
+      type: Confirm.types.YESNO,
+      message: "Určite chcete zmazať článok?",
+      onYes: () => {
+        window.location.href = e.target.href;
+      },
     });
+  });
 }
 
-btnDeleteComment = document.querySelector("#btn-delete-comment")
-if (btnDeleteComment){
-    btnDeleteComment.addEventListener("click", (e) => {
-      e.preventDefault();
-      Confirm.open({
-        type: Confirm.types.YESNO,
-        message: "Určite chcete zmazať komentár?",
-        onYes: () => {
-          window.location.href = e.target.href;
-        },
-      });
+btnDeleteProfile = document.querySelector("#btn-delete-profile");
+if (btnDeleteProfile) {
+  btnDeleteProfile.addEventListener("click", (e) => {
+    e.preventDefault();
+    Confirm.open({
+      type: Confirm.types.YESNO,
+      message: "Určite chcete zmazať svoj profil?",
+      onYes: () => {
+        window.location.href = e.target.href;
+      },
     });
+  });
 }
 
-btnForgotPassword = document.querySelector("#btn-forgot-password")
+btnDeleteComment = document.querySelector("#btn-delete-comment");
+if (btnDeleteComment) {
+  btnDeleteComment.addEventListener("click", (e) => {
+    e.preventDefault();
+    Confirm.open({
+      type: Confirm.types.YESNO,
+      message: "Určite chcete zmazať komentár?",
+      onYes: () => {
+        window.location.href = e.target.href;
+      },
+    });
+  });
+}
+
+btnForgotPassword = document.querySelector("#btn-forgot-password");
 if (btnForgotPassword) {
   btnForgotPassword.addEventListener("click", (e) => {
-    e.preventDefault()
+    e.preventDefault();
     Confirm.open({
       type: Confirm.types.OK,
       message: "Link na zmenu hesla bol odoslaný na váš email",
       yesText: "Ok",
       onYes: () => {
-        form = document.querySelector("#request-password-reset-form")
-        form.submit()
-        console.log(form)
+        form = document.querySelector("#request-password-reset-form");
+        form.submit();
+        console.log(form);
         // window.location.href = e.target.getAttribute("data-href")
-      }
+      },
     });
-  })
+  });
 }
 
-btnHam = document.querySelector(".ham")
+btnHam = document.querySelector(".ham");
 if (btnHam) {
   btnHam.addEventListener("click", (e) => {
-    e.preventDefault()
-    btnHamX = document.querySelector(".ham-x")
-    btnHamX.classList.remove("hidden")
-    btnHam.classList.add("hidden")
-    navMenu = document.querySelector(".nav")
-    navMenu.style.display = "block"
-  })
+    e.preventDefault();
+    btnHamX = document.querySelector(".ham-x");
+    btnHamX.classList.remove("hidden");
+    btnHam.classList.add("hidden");
+    navMenu = document.querySelector(".nav");
+    navMenu.style.display = "block";
+  });
 }
 
-btnHamX = document.querySelector(".ham-x")
+btnHamX = document.querySelector(".ham-x");
 if (btnHamX) {
   btnHamX.addEventListener("click", (e) => {
-    e.preventDefault()
-    btnHam = document.querySelector(".ham")
-    btnHam.classList.remove("hidden")
-    btnHamX = document.querySelector(".ham-x")
-    btnHamX.classList.add("hidden")
-    navMenu = document.querySelector(".nav")
-    navMenu.style.display = "none"
-  })
+    e.preventDefault();
+    btnHam = document.querySelector(".ham");
+    btnHam.classList.remove("hidden");
+    btnHamX = document.querySelector(".ham-x");
+    btnHamX.classList.add("hidden");
+    navMenu = document.querySelector(".nav");
+    navMenu.style.display = "none";
+  });
 }
 
+searchIcon = document.querySelector("#search-icon");
+searchBar = document.querySelector("#search-bar");
+
+searchIcon.addEventListener("click", (e) => {
+  e.preventDefault();
+  searchBar.classList.toggle("hidden");
+});
 
 function changeTheme() {
-  let d = new Date()
-  let hour = d.getHours()
+  let d = new Date();
+  let hour = d.getHours();
   if (hour <= 6 || hour >= 19) {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } 
+    document.documentElement.setAttribute("data-theme", "dark");
+  }
 }
 
-changeTheme()
+changeTheme();
