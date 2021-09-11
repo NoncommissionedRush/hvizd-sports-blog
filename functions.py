@@ -43,11 +43,10 @@ def validate(email, password, confirm_password):
         return True
 
 
-# ------------====---------------- CHECK TAG ORPHANS --------------------------------
+# -------------------------------- CHECK TAG ORPHANS --------------------------------
 def delete_orphan_tag(tag):
     """checks if a tag has no parent and deletes it from database"""
     if len(tag.posts) == 0:
-        print(f"deleting {tag} from database")
         db.session.delete(tag)
         db.session.commit()
         return True
@@ -113,30 +112,23 @@ def upload_to_s3(file, profile_img, acl="public-read"):
     s3 = boto3.client("s3", aws_access_key_id=S3_KEY, aws_secret_access_key=S3_SECRET)
 
     if file and allowed_file(file.filename):
-        print("here we are in upload_to_s3 and there is a file and it is allowed")
         filename = file.filename
         extension = filename.split(".")[-1]
         # create new filename with user id
         new_filename = f"profile-img-user-{current_user.id}.{extension}"
         # save the file to S3 bucket
-        print(f"this should be the new_filename = {new_filename}")
         try:
-            print(f"the S3 secret is {S3_SECRET}")
-            print(f"the S3 access key is {S3_KEY}")
             s3.upload_fileobj(
                 file,
                 S3_BUCKET,
                 new_filename,
                 ExtraArgs={"ACL": acl, "ContentType": file.content_type},
             )
-            print("uploaded to S3 successfully")
         except Exception as e:
             print(f"Error when uploading to S3: {e}")
             return profile_img
-        print(f"this should be returned from the fn = {S3_LOCATION}{new_filename}")
         return f"{S3_LOCATION}{new_filename}"
     else:
-        print("something was not right so the profile_img should have stayed the same")
         return profile_img
 
 
