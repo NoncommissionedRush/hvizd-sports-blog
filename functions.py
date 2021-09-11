@@ -159,17 +159,16 @@ app.jinja_env.globals.update(kebab=kebab)
 
 # ---------------------------------------- SEND EMAIL -------------------------------------------
 def send_password_reset_link(user):
-    my_email = os.environ.get("MAILGUN_SMTP_LOGIN")
-    my_email_password = os.environ.get("MAILGUN_SMTP_PASSWORD")
+    my_email = os.environ.get("SMTP_LOGIN")
+    my_email_password = os.environ.get("SMTP_PASSWORD")
     hash = user.password.split("$")[-1]
 
-    SERVER = os.environ.get("MAILGUN_SMTP_SERVER")
-    PORT = os.environ.get("MAILGUN_SMTP_PORT")
+    SERVER = os.environ.get("SMTP_SERVER")
+    PORT = os.environ.get("SMTP_PORT")
 
     with smtplib.SMTP(SERVER, PORT) as connection:
         connection.ehlo()
         connection.starttls()
-        connection.ehlo()
         connection.login(user=my_email, password=my_email_password)
         try:
             connection.sendmail(
