@@ -135,7 +135,7 @@ def upload_to_s3(file, profile_img, acl="public-read"):
 # ---------------------------------- STR TO KEBAB CASE ----------------------------------
 def kebab(str):
     """changes string to kebab case"""
-    str = re.sub("[^a-zA-Z0-9\s:-]", "", str)
+    str = re.sub("[^\w\d\s:]", "", str)
     str = unidecode(str).lower()
     x = re.findall(
         "(?:\d+)|(?:[a-zA-Z]+(?=\d))|(?:[a-zA-Z0-9]+(?=[A-Z]))|(?:[a-zA-Z0-9]+(?=\-))|(?:[a-zA-Z0-9]+(?=\s))|[a-zA-Z0-9]+$",
