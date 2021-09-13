@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, url_for
 from flask.templating import render_template
 from flask_login.login_manager import LoginManager
 from flask_login.utils import login_required, current_user
@@ -95,6 +95,11 @@ def get_admin_info():
         return res
     else:
         return redirect("/")
+
+
+@app.route("/sitemap.xml")
+def static_from_root():
+    return redirect(url_for("static", filename="sitemap.xml"))
 
 
 from routes.post_routes import post_routes
