@@ -25,7 +25,7 @@ def login():
             flash("Nesprávne prihlasovacie údaje")
             return redirect(url_for("login_routes.login"))
 
-    return render_template("login.html", title="Prihlásenie")
+    return render_template("login.html", title="Hvizd - Prihlásenie")
 
 
 @login_routes.route("/register", methods=["GET", "POST"])
@@ -60,7 +60,7 @@ def register():
 
             return redirect(url_for("home"))
 
-    return render_template("register.html", title="Registrácia")
+    return render_template("register.html", title="Hvizd - Registrácia")
 
 
 @login_routes.route("/logout")
@@ -109,5 +109,5 @@ def password_reset(user_id, hash):
         user_id=user_id,
         hash=hash,
         request=False,
-        title="Obnova hesla",
+        title="Hvizd - Obnova hesla",
     )

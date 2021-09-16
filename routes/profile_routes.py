@@ -20,7 +20,7 @@ def profile(user_id):
         user_posts=user_posts,
         top_posts=top_posts,
         all_tags=all_tags,
-        title=f"{user.name}",
+        title=f"Hvizd profil - {user.name}",
     )
 
 
