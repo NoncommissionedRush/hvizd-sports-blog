@@ -10,6 +10,23 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="{{post.title}}" />
     <meta name="twitter:image" content="{{post.title_img}}" />
+    <meta name="description" content="{{post.body | safe | truncate(140)}}">
+    {% elif user %}
+    <meta name="og:title" content="{{user.name}} - Hvizd profil">
+    <meta name="og:image" content="{{user.profile_img}}">
+    <meta name="og:type" content="article">
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="{{user.name}}" />
+    <meta name="twitter:image" content="{{user.profile_img}}" />
+    <meta name="description" content="Profil autora {{user.name}} - {{user.about | safe |truncate(140)}}">
+    {% else %}
+    <meta name="og:title" content="Hvizd - Športový Blog">
+    <meta name="og:image" content="{{url_for('static', filename='img/'+default_post_img)}}'">
+    <meta name="og:type" content="blog">
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Hvizd - Športový Blog" />
+    <meta name="twitter:image" content="{{url_for('static', filename='img/'+default_post_img)}}'"/>
+    <meta name="description" content="Blog o športe. Zaregistruj sa a pridaj vlastný článok.">
     {% endif %}
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
