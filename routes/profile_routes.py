@@ -3,6 +3,7 @@ from flask_login.utils import login_required, current_user
 from config import db
 from models import Post, Tag, User
 from functions import get_popular_posts, upload_to_s3, update_user
+from sqlalchemy import desc
 
 profile_routes = Blueprint("profile_routes", __name__)
 
@@ -10,7 +11,9 @@ profile_routes = Blueprint("profile_routes", __name__)
 @profile_routes.route("/profile/<int:user_id>")
 def profile(user_id):
     user = User.query.get(user_id)
-    user_posts = Post.query.filter_by(author_id=user_id)
+    user_posts = (
+        Post.query.filter_by(author_id=user_id).order_by(desc(Post.created_date)).all()
+    )
     top_posts = get_popular_posts()
     all_tags = Tag.query.all()
     return render_template(
